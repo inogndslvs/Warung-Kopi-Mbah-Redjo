@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 200;
+  src: url("../fonts/poppins-v15-latin-regular.eot"); /* IE9 Compat Modes */
+  src: local(""), url("../fonts/poppins-v15-latin-regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("../fonts/poppins-v15-latin-regular.woff2") format("woff2"), url("../fonts/poppins-v15-latin-regular.woff") format("woff"),
+    url("../fonts/poppins-v15-latin-regular.ttf") format("truetype"), url("../fonts/poppins-v15-latin-regular.svg#Poppins") format("svg"); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: "Bright Retro";
+  src: url("../assets/font/bright.woff2") format("truetype"), url("../assets/font/brightD.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
