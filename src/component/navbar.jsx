@@ -21,7 +21,7 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center">
-          <ul className="flex space-x-6 font-mono font-medium text-sm text-textnav ">
+          <ul className="flex space-x-6 font-display font-medium text-sm text-textnav ">
             <li className={location.pathname === "/" ? "text-third" : "hover:text-primary"}>
               <Link to="/">Home</Link>
             </li>

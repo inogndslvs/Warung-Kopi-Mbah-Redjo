@@ -5,6 +5,8 @@ export default {
     colors: {
       secondary: "#FBF6E8",
       primary: "#BD0000",
+      kuning: "#CFD43E",
+      hitam: "#3A2D2D",
       textnav: "#424242",
       profile: "#F5F5F5",
       third: "#1658A4",
@@ -18,10 +20,10 @@ export default {
     fontFamily: {
       display: ["Poppins"],
       body: ['"Open Sans"'],
-      bright: ["Bright \\Retro"],
+      bright: ['"bright_demoregular"'],
     },
     fontWeight: {
-      thin: "5",
+      thin: "2",
       extralight: "200",
       light: "300",
       normal: "400",

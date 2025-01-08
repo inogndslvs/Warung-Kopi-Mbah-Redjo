@@ -12,8 +12,8 @@
 }
 
 @font-face {
-  font-family: "Bright Retro";
-  src: url("../assets/font/bright.woff2") format("truetype"), url("../assets/font/brightD.woff") format("woff");
+  font-family: "bright_demoregular";
+  src: url("assets/font/bright_demo-webfont.woff2") format("woff2"), url("assets/font/bright_demo-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
