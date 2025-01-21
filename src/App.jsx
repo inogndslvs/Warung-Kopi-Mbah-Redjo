@@ -3,6 +3,9 @@ import Home from "./pages/client/Home";
 import Menu from "./pages/client/Menu";
 import Blog from "./pages/client/Blog";
 import AboutUs from "./pages/client/About-us";
+import Login from "./pages/admin/Login";
+import Dashboard from "./pages/admin/Dashboard";
+import Products from "./pages/admin/Product";
 
 function App() {
   return (
@@ -12,6 +15,9 @@ function App() {
         <Route path="/menu" element={<Menu />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/products" element={<Products />} />
       </Routes>
     </Router>
   );
