@@ -9,6 +9,12 @@ export default {
       textnav: "#424242",
       profile: "#F5F5F5",
       third: "#1658A4",
+      header: "#F9FAFB",
+      gray: "#D3D3D3",
+      green_100: "#E6FFE9",
+      green_800: "#1A4D2E",
+      red_100: "#FFE6E6",
+      red_800: "#7A2C2C",
     },
 
     extend: {
