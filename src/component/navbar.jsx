@@ -21,17 +21,17 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center">
-          <ul className="flex space-x-6 font-mono font-medium text-sm text-textnav ">
-            <li className={location.pathname === "/" ? "text-third" : "hover:text-primary"}>
+          <ul className="flex space-x-6 font-display font-medium text-sm text-textnav ">
+            <li className={location.pathname === "/" ? "text-third" : "hover:text-primary transition duration-300"}>
               <Link to="/">Home</Link>
             </li>
-            <li className={location.pathname === "/menu" ? "text-third" : "hover:text-primary"}>
+            <li className={location.pathname === "/menu" ? "text-third" : "hover:text-primary transition duration-300"}>
               <Link to="/menu">Menu</Link>
             </li>
-            <li className={location.pathname === "/blog" ? "text-third" : "hover:text-primary"}>
+            <li className={location.pathname === "/blog" ? "text-third" : "hover:text-primary transition duration-300"}>
               <Link to="/blog">Blog</Link>
             </li>
-            <li className={location.pathname === "/about-us" ? "text-third" : "hover:text-primary"}>
+            <li className={location.pathname === "/about-us" ? "text-third" : "hover:text-primary transition duration-300"}>
               <Link to="/about-us">About Us</Link>
             </li>
           </ul>
@@ -50,11 +50,11 @@ const Navbar = () => {
           <button onClick={toggleMenu} type="button" className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white" aria-controls="mobile-menu" aria-expanded={isOpen}>
             <span className="sr-only">Open main menu</span>
             {/* Hamburger Icon */}
-            <svg className={`${isOpen ? "hidden" : "block"} h-6 w-6`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`${isOpen ? "hidden" : "block"} h-6 w-6 text-black`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             {/* Close Icon */}
-            <svg className={`${isOpen ? "block" : "hidden"} h-6 w-6`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`${isOpen ? "block" : "hidden"} h-6 w-6 text-black`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
