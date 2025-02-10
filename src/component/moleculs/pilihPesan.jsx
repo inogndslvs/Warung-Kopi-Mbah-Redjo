@@ -28,7 +28,7 @@ const PilihanMenu = () => {
               className=" w-[315px] h-[154px] object-cover rounded-md mb-2"
             />
             <button
-              onClick={() => navigate("/menu/minuman")}
+              onClick={() => navigate("/minuman")}
               className="bg-primary w-[99%] hover:bg-yellow-600 text-kuning text-lg font-bright py-2 px-4 rounded-md shadow-md transition"
             >
               Minuman
@@ -43,7 +43,7 @@ const PilihanMenu = () => {
               className=" w-[315px] h-[154px] object-cover rounded-md mb-2"
             />
             <button
-              onClick={() => navigate("/menu/makanan")}
+              onClick={() => navigate("/makanan")}
               className="bg-primary w-[99%] hover:bg-blue-600 text-kuning text-lg font-bright  py-2 px-4 rounded-md shadow-md transition"
             >
               Makanan

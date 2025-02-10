@@ -4,17 +4,21 @@ import Menu from "./pages/client/Menu";
 import Blog from "./pages/client/Blog";
 import AboutUs from "./pages/client/About-us";
 import Layout from "./component/layout/layout";
+import MenuMinuman from "./component/moleculs/MenuMinuman";
+import MenuMakanan from "./component/moleculs/MenuMakanan";
 
 function App() {
   return (
     <Router>
       <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/about-us" element={<AboutUs />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/menu" element={<Menu />} />
+          <Route path="/minuman" element={<MenuMinuman />} />
+          <Route path="/makanan" element={<MenuMakanan />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/about-us" element={<AboutUs />} />
+        </Routes>
       </Layout>
     </Router>
   );
