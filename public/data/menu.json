@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Es Kopi Susu",
+    "type": "Minuman",
+    "price": "Rp 25.000",
+    "description": "Kopi susu dengan gula aren khas nusantara.",
+    "image": "/images/menu/kopi-klotok.png"
+  },
+  {
+    "id": 2,
+    "name": "Teh Poci",
+    "type": "Minuman",
+    "price": "Rp 15.000",
+    "description": "Teh hangat disajikan dengan gula batu khas desa.",
+    "image": "/images/menu/kopi-klotok.png"
+  },
+  {
+    "id": 3,
+    "name": "Nasi Goreng Spesial",
+    "type": "Makanan",
+    "price": "Rp 35.000",
+    "description": "Nasi goreng dengan bumbu khas Warung Kopi Mbah Redjo.",
+    "image": "/images/menu/kopi-klotok.png"
+  },
+  {
+    "id": 4,
+    "name": "Mie Jawa",
+    "type": "Makanan",
+    "price": "Rp 30.000",
+    "description": "Mie jawa dengan cita rasa khas rempah tradisional.",
+    "image": "/images/menu/kopi-klotok.png"
+  }
+]

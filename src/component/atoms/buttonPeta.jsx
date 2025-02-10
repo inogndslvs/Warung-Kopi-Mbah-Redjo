@@ -10,7 +10,7 @@ function ButtonLocation() {
         href={locationUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-display font-semibold inline-flex items-center justify-evenly gap-8 px-8 py-3 w-[300px] bg-kuning text-primary font-display font-thin text-sm rounded-full shadow-md hover:bg-third transition duration-300"
+        className="font-display font-semibold inline-flex items-center justify-evenly gap-8 px-8 py-3 w-[350px] md:w-[300px] bg-kuning text-primary font-display font-thin text-sm rounded-full shadow-md hover:bg-third hover:text-white transition duration-300"
       >
         OTW Sekarang Juga
         {/* Ikon Pesawat dengan Warna Primary */}

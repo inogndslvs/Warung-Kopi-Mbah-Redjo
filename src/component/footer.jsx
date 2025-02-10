@@ -14,7 +14,7 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="md:hidden mt-4 border-t border-secondary w-[100%] mx-auto max-w-[900px]"></div>
+        <div className="md:hidden mt-4 border-t border-secondary w-[100%] mx-auto"></div>
 
         {/* Logo (Tampil di desktop) */}
         <div className="hidden md:flex items-center">

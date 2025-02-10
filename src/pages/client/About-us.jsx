@@ -1,9 +1,8 @@
-import Navbar from "../../component/navbar";
+
 
 const AboutUs = () => {
   return (
     <div>
-      <Navbar />
       <div className="p-8">
         <h1 className="text-3xl font-bold text-center">Tentang Warung Kopi Mbah Redjo</h1>
         <p className="mt-4 text-center">Warung Kopi Mbah Redjo didirikan untuk membawa kehangatan kopi klasik ke generasi masa kini. Kami percaya setiap cangkir memiliki cerita.</p>

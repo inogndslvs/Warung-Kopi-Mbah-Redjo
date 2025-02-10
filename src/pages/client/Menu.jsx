@@ -1,27 +1,18 @@
-import Navbar from "../../component/navbar";
+import PilihanMenu from "../../component/moleculs/pilihPesan";
+import Bgmenu from "../../assets/bgMenuImg.svg";
 const Menu = () => {
   return (
-    <div>
-      <Navbar />
-      <div className="p-8">
-        <h1 className="text-3xl font-bold text-center">Menu Kami</h1>
-        <div className="mt-8 grid grid-cols-2 gap-4">
-          <div className="p-4 border rounded-lg">
-            <h2 className="text-xl font-bold">Makanan</h2>
-            <ul className="mt-2">
-              <li>- Nasi Goreng</li>
-              <li>- Pisang Goreng</li>
-              <li>- Roti Bakar</li>
-            </ul>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <h2 className="text-xl font-bold">Minuman</h2>
-            <ul className="mt-2">
-              <li>- Kopi Hitam</li>
-              <li>- Cappuccino</li>
-              <li>- Teh Hangat</li>
-            </ul>
-          </div>
+    <div className="bg-secondary">
+      <div
+        className="md:p-8 "
+        style={{
+          backgroundImage: `url(${Bgmenu})`,
+          backgroundPosition: "bottom left",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="flex justify-center items-center">
+          <PilihanMenu />
         </div>
       </div>
     </div>
