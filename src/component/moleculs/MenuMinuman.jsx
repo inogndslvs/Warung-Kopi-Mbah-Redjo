@@ -16,21 +16,21 @@ const dummyProducts = [
     id: 1,
     category: "Kopi",
     name: "Kopo Klotok",
-    price: "10.000",
+    price: "8.000",
     description:
       "Turn down the world's noise with the long-lasting noise cancellation performance of the premium coffee beans. Our signature blend offers a rich, full-bodied taste that transforms your coffee experience into a moment of pure indulgence. Each sip delivers a perfect balance of intensity and smoothness, carefully crafted to awaken your senses and elevate your day.",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/4/45/A_small_cup_of_coffee.JPG",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xGNbO49ms6F9uweSSF5LodF9NXnlnA.png",
   },
   {
     id: 2,
     category: "Kopi",
     name: "Espresso Shot",
-    price: "11.000",
+    price: "8.000",
     description:
       "A quick energy boost with our signature espresso blend, perfect for busy mornings...",
     image:
-      "https://www.ruparupa.com/blog/wp-content/uploads/2022/10/jenis-minuman-kopi.jpg",
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xGNbO49ms6F9uweSSF5LodF9NXnlnA.png",
   },
   {
     id: 3,
@@ -46,7 +46,7 @@ const dummyProducts = [
     id: 4,
     category: "Kopi",
     name: "Latte",
-    price: "7.000",
+    price: "8.000",
     description:
       "Our creamy latte combines rich espresso with velvety steamed milk for a comforting...",
     image:
@@ -56,7 +56,7 @@ const dummyProducts = [
     id: 5,
     category: "Kopi",
     name: "Americano",
-    price: "10.000",
+    price: "8.000",
     description:
       "For those who prefer a longer coffee, our Americano dilutes a shot of espresso...",
     image:
@@ -66,7 +66,7 @@ const dummyProducts = [
     id: 6,
     category: "Kopi",
     name: "Mocha",
-    price: "11.000",
+    price: "8.000",
     description:
       "Indulge in the perfect blend of espresso, steamed milk, and rich chocolate syrup...",
     image:
@@ -86,7 +86,7 @@ const dummyProducts = [
     id: 8,
     category: "Kopi",
     name: "Flat White",
-    price: "7.000",
+    price: "8.000",
     description:
       "A harmonious blend of espresso and steamed milk, resulting in a smooth and velvety...",
     image:
@@ -96,7 +96,7 @@ const dummyProducts = [
     id: 9,
     category: "Kopi",
     name: "Macchiato",
-    price: "10.000",
+    price: "8.000",
     description:
       'Our macchiato features a shot of espresso "stained" with a dollop of frothy milk...',
     image:
@@ -106,7 +106,7 @@ const dummyProducts = [
     id: 10,
     category: "Kopi",
     name: "Affogato",
-    price: "11.000",
+    price: "8.000",
     description:
       'A scoop of vanilla gelato "drowned" in a shot of hot espresso for a delightful...',
     image:
@@ -126,7 +126,7 @@ const dummyProducts = [
     id: 12,
     category: "Teh",
     name: "Chai Latte",
-    price: "7.000",
+    price: "8.000",
     description:
       "A spiced tea latte with a blend of aromatic spices and herbs, mixed with steamed milk...",
     image:
@@ -136,7 +136,7 @@ const dummyProducts = [
     id: 13,
     category: "Teh",
     name: "Green Tea",
-    price: "10.000",
+    price: "8.000",
     description:
       "Premium Japanese green tea, rich in antioxidants and offering a moment of zen...",
     image:
@@ -146,7 +146,7 @@ const dummyProducts = [
     id: 14,
     category: "Coklat",
     name: "Hot Chocolate",
-    price: "11.000",
+    price: "8.000",
     description:
       "Indulgent and creamy hot chocolate made with real cocoa and topped with whipped cream...",
     image:
@@ -163,7 +163,6 @@ const dummyProducts = [
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xGNbO49ms6F9uweSSF5LodF9NXnlnA.png",
   },
 ];
-
 export default function MenuMinuman() {
   const [items, setItems] = useState(
     dummyProducts.map((product) => ({
