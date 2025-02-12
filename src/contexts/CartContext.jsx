@@ -33,10 +33,8 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (itemId, category) => {
-    setCartItems((prev) =>
-      prev.filter((item) => !(item.id === itemId && item.category === category))
-    );
+  const removeFromCart = (cartId) => {
+    setCartItems((prev) => prev.filter((item) => item.cartId !== cartId));
   };
 
   const Hapus = (ItemId) => {

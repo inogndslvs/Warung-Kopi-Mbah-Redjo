@@ -4,22 +4,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import ModalDataKosong from "../component/modal/mdldtaKosong";
+import ModalTerimaKasih from "../component/modal/mdlThanks";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const {
-    cartItems,
-    clearCart,
-    getTotal,
-    updateQuantity,
-    removeFromCart,
-    Hapus,
-  } = useCart();
+  const { cartItems, clearCart, getTotal, updateQuantity, removeFromCart } =
+    useCart();
 
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
+    tableNumber: "",
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isThankYouModalOpen, setThankYouModalOpen] = useState(false);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -30,10 +29,20 @@ const Checkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle order submission here
-    alert("Pesanan berhasil dibuat!");
-    clearCart();
-    navigate("/");
+
+    // Cek apakah nama dan nomor meja sudah diisi
+    if (!formData.name.trim() || !formData.tableNumber.trim()) {
+      setIsModalOpen(true);
+      return;
+    }
+
+    // Tampilkan modal terima kasih
+    setThankYouModalOpen(true);
+
+    setTimeout(() => {
+      setThankYouModalOpen(false);
+      navigate("/menu");
+    }, 5000);
   };
 
   if (cartItems.length === 0) {
@@ -64,6 +73,9 @@ const Checkout = () => {
             </label>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Masukkan nama"
               className="w-full p-2 border rounded"
             />
@@ -75,6 +87,9 @@ const Checkout = () => {
             </label>
             <input
               type="text"
+              name="tableNumber"
+              value={formData.tableNumber}
+              onChange={handleChange}
               placeholder="Masukkan nomor meja"
               className="w-full p-2 border rounded"
             />
@@ -150,6 +165,16 @@ const Checkout = () => {
           </button>
         </div>
       </form>
+
+      {/* Tampilkan modal jika input kosong */}
+      <ModalDataKosong
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <ModalTerimaKasih
+        isOpen={isThankYouModalOpen}
+        onClose={() => setThankYouModalOpen(false)}
+      />
     </div>
   );
 };
