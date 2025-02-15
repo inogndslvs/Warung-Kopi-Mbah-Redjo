@@ -29,17 +29,17 @@ const RecentBlog = () => {
   ];
 
   return (
-    <div className="container mt-24 ">
-      <h1 className="pl-4 md:pl-8 font-bright text-primary text-3xl">
-        Recent blog posts
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-[2px] md:p-8">
+    <div className="container mt-24 px-4 px-[2px] md:px-8">
+      <h1 className="font-bright text-primary text-3xl">Recent Blog Posts</h1>
+
+      {/* Grid untuk Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         {/* Blog utama */}
-        <div className="p-4 border rounded-lg shadow-lg h-full">
+        <div className="p-4 border rounded-lg shadow-lg">
           <img
             src={blogs[0].image}
             alt={blogs[0].title}
-            className="w-full md:w-[592px] h-[240px] object-cover rounded-md"
+            className="w-full h-[240px] object-cover rounded-md"
           />
           <div className="mt-4">
             <p className="text-sm text-gray-500">
@@ -55,22 +55,22 @@ const RecentBlog = () => {
           </div>
         </div>
 
-        {/* Dua blog lainnya dalam satu kolom dengan tinggi seimbang */}
-        <div className="flex flex-col gap-6 h-full">
+        {/* Dua blog lainnya */}
+        <div className="flex flex-col gap-6">
           {blogs.slice(1).map((blog) => (
             <div
               key={blog.id}
-              className="p-4 border rounded-lg shadow-lg flex flex-col md:flex-row items-center md:items-start gap-4"
+              className="p-4 border rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-4"
             >
               {/* Gambar di sebelah kiri */}
               <img
                 src={blog.image}
                 alt={blog.title}
-                className="w-full md:w-[320px] h-[200px] object-cover rounded-md"
+                className="w-full md:w-[180px] h-[160px] object-cover rounded-md"
               />
 
               {/* Konten di sebelah kanan */}
-              <div className="flex-1 text-start md:text-left">
+              <div className="flex-1">
                 <p className="text-sm text-gray-500">
                   {blog.author} - {blog.date}
                 </p>

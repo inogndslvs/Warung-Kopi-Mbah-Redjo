@@ -10,26 +10,26 @@ const Subscribe = () => {
   };
 
   return (
-    <div className="p-6  rounded-lg text-center mt-8">
+    <div className="p-6 rounded-lg text-center mt-8">
       <p className="text-lg font-bright text-gray-500">
         Subscribe untuk mendapatkan informasi terbaru.
       </p>
 
       <form
         onSubmit={handleSubscribe}
-        className="mt-4 flex justify-center gap-3 "
+        className="mt-4 flex flex-col sm:flex-row justify-center gap-3 w-full max-w-md mx-auto"
       >
         <input
           type="email"
           placeholder="Masukkan email Anda"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="p-2 border border-gray-300 rounded-lg w-72 focus:outline-none"
+          className="p-3 border border-gray-300 rounded-lg w-full text-base focus:outline-none"
           required
         />
         <button
           type="submit"
-          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+          className="bg-red-600 text-white px-5 py-3 rounded-lg hover:bg-red-700 w-full sm:w-auto text-lg font-semibold"
         >
           Subscribe
         </button>
