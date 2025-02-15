@@ -1,5 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import Sidebar from '../../component/admin/Sidebar';
+import HeaderAdmin from '../../component/admin/HeaderAdmin';
 
 const Dashboard = () => {
   // Add this data array for top products
@@ -28,92 +30,10 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen w-screen flex flex-col bg-[#FFFBF5]">
-      {/* Header/Navbar */}
-      <div className="w-full bg-[#F7EFE5] border-b px-6 py-2 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <img src="src\assets\logo\logofill.png" alt="Logo" className="h-8 w-auto" />
-          {/* <h1 className="text-lg font-bold text-[#C38154]">Warung Kopi Mbah Redjo</h1> */}
-        </div>
-        <div className="flex-1 mx-4 max-w-2xl">
-          <div className="relative">
-            <input
-              type="search"
-              placeholder="Type to search"
-              className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:border-[#C38154] bg-[#FFFBF5] shadow-sm"
-            />
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="relative">
-            <span className="absolute -top-1 -right-1 bg-[#C38154] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
-            <svg className="w-6 h-6 text-[#7D6E83]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <div className="relative">
-            <span className="absolute -top-1 -right-1 bg-[#C38154] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
-            <svg className="w-6 h-6 text-[#7D6E83]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-          </div>
-          <img src="src\assets\logo\logofill.png" alt="Profile" className="w-8 h-8 rounded-full" />
-        </div>
-      </div>
-
+      <HeaderAdmin />
       <div className="flex flex-1">
-        {/* Sidebar */}
-        <div className="w-64 bg-[#F7EFE5] border-r flex flex-col h-full">
-          <div className="p-4 flex-1">
-            <nav className="space-y-4">
-              <a href="#" className="flex items-center gap-3 p-2 text-[#7D6E83] rounded hover:bg-[#FFFBF5]">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                </svg>
-                <span>Dashboard</span>
-              </a>
-              
-              <div className="space-y-1">
-                <div className="flex items-center justify-between gap-3 p-2 text-[#7D6E83] rounded hover:bg-[#FFFBF5] cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                    </svg>
-                    <span>Settings</span>
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="pl-10 space-y-1">
-                  <a href="#" className="block text-[#7D6E83] hover:bg-[#FFFBF5] rounded p-2">Produk</a>
-                  <a href="#" className="block text-[#7D6E83] hover:bg-[#FFFBF5] rounded p-2">User</a>
-                  <a href="/products" className="block text-[#7D6E83] hover:bg-[#FFFBF5] rounded p-2">Kelola Produk</a>
-                  <a href="#" className="block text-[#7D6E83] hover:bg-[#FFFBF5] rounded p-2">Kelola Diskon</a>
-                  <a href="#" className="block text-[#7D6E83] hover:bg-[#FFFBF5] rounded p-2">Blog</a>
-                </div>
-              </div>
-
-              <a href="#" className="flex items-center gap-3 p-2 text-[#7D6E83] rounded hover:bg-[#FFFBF5]">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-                <span>Orders</span>
-              </a>
-            </nav>
-          </div>
-          
-          {/* Logout button at bottom */}
-          <div className="p-4 border-t">
-            <a href="/" className="flex items-center gap-3 p-2 text-[#7D6E83] rounded hover:bg-[#FFFBF5]">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
-              </svg>
-              <span>Logout</span>
-            </a>
-          </div>
-        </div>
-
+        <Sidebar />
+        
         {/* Main Content */}
         <div className="flex-1">
           <div className="p-6">

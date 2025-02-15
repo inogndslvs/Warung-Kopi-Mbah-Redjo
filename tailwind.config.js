@@ -26,6 +26,7 @@ export default {
         textnav: "#424242",
         profile: "#F5F5F5",
         third: "#1658A4",
+        blue: "#0154D1"
       },
       margin: {
         "90px": "90px",

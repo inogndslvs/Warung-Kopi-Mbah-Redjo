@@ -9,6 +9,11 @@ import Products from "./pages/admin/Products";
 import Blogs from "./pages/admin/Blogs";
 import Orders from "./pages/admin/Orders";
 import Users from "./pages/admin/Users";
+import DetailOrder from "./pages/admin/DetailOrder";
+import AddProduct from "./pages/admin/AddProduct";
+import EditProduct from "./pages/admin/EditProduct";
+import AddBlog from "./pages/admin/AddBlog";
+import EditBlog from "./pages/admin/EditBlog";
 
 function App() {
   return (
@@ -21,8 +26,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/addproduct" element={<AddProduct />} />
+        <Route path="/editproduct" element={<EditProduct />} />
+        <Route path="/addblog" element={<AddBlog />} />
+        <Route path="/editblog" element={<EditBlog />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:kodeOrder" element={<DetailOrder />} />
         <Route path="/users" element={<Users />} />
       </Routes>
     </Router>

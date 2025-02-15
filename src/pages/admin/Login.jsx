@@ -1,8 +1,7 @@
 import React from "react";
-import Navbar from "../../component/navbar";
 
 
-function Login() {
+const Login = () => {
     return (
         <div className="bg-primary h-screen w-screen flex items-center justify-center relative overflow-hidden">
           <img 
@@ -13,10 +12,10 @@ function Login() {
           <div className="bg-secondary p-8 rounded-lg shadow-md w-full max-w-[540px] mx-2 relative z-10">
             <div className="flex items-center mb-4">
               <img src="src\assets\logo\logofill.png" alt="logo" className="h-12 w-auto" />
-              <h1 className="text-primary ml-1 text-base font-bold">Warung Kopi<br />Mbah Rejo</h1>
+              <h1 className="text-primary ml-1 leading-none font-bright">Warung Kopi<br/>Mbah Rejo</h1>
             </div>
-            <h1 className="text-2xl font-bold text-red-600">Admin Login</h1>
-            <p className="text-gray-600 mb-4">Welcome back. Enter your credentials to access your account.</p>
+            <h1 className="font-bright text-2xl text-primary">Admin Login</h1>
+            <p className="text-[#64748B] mb-4">Welcome back. Enter your credentials to access your account.</p>
             <form>
               <div className="mb-4">
                 <label className="block font-bold text-gray-700">Email Address</label>
@@ -59,7 +58,7 @@ function Login() {
                     <div className="w-full border-t border-gray-300"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">or sign up with</span>
+                    <span className="px-2 bg-white text-[#64748B]">or sign up with</span>
                   </div>
                 </div>
               </div>
@@ -89,7 +88,7 @@ function Login() {
               </button>
               </div>
             
-              <p className="mt-6 text-gray-600">
+              <p className="mt-6 text-center text-gray-600">
                 Don't have an Account? 
                 <a href="#" className="text-red-600 ml-1">Sign up here</a>
               </p>
