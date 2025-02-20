@@ -2,18 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-gray-100; /* Ganti dengan warna yang kamu mau */
+}
+
 @font-face {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 200;
   src: url("../fonts/poppins-v15-latin-regular.eot"); /* IE9 Compat Modes */
-  src: local(""), url("../fonts/poppins-v15-latin-regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("../fonts/poppins-v15-latin-regular.woff2") format("woff2"), url("../fonts/poppins-v15-latin-regular.woff") format("woff"),
-    url("../fonts/poppins-v15-latin-regular.ttf") format("truetype"), url("../fonts/poppins-v15-latin-regular.svg#Poppins") format("svg"); /* Legacy iOS */
+  src: local(""),
+    url("../fonts/poppins-v15-latin-regular.eot?#iefix")
+      format("embedded-opentype"),
+    /* IE6-IE8 */ url("../fonts/poppins-v15-latin-regular.woff2")
+      format("woff2"),
+    url("../fonts/poppins-v15-latin-regular.woff") format("woff"),
+    url("../fonts/poppins-v15-latin-regular.ttf") format("truetype"),
+    url("../fonts/poppins-v15-latin-regular.svg#Poppins") format("svg"); /* Legacy iOS */
 }
 
 @font-face {
   font-family: "bright_demoregular";
-  src: url("assets/font/bright_demo-webfont.woff2") format("woff2"), url("assets/font/bright_demo-webfont.woff") format("woff");
+  src: url("assets/font/bright_demo-webfont.woff2") format("woff2"),
+    url("assets/font/bright_demo-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
