@@ -70,7 +70,7 @@ const foods = [
 const PilihanMakanan = () => {
   const { isInCart } = useCart();
   return (
-    <div className="container pt-28 mx-auto px-4 py-8 mb-20">
+    <div className="container pt-28 mx-auto px-4 py-8 pb-20">
       <h1 className="text-3xl font-bright text-primary mb-8">
         Pilihan Makanan
       </h1>

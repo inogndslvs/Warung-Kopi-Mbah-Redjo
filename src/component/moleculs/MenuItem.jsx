@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useFavorites } from "../../contexts/FavoritesContext";
@@ -8,11 +8,16 @@ import { useNavigate } from "react-router-dom";
 
 const MenuItem = ({ item }) => {
   const navigate = useNavigate();
-  const { addToCart, removeFromCart, isInCart } = useCart();
+  const { addToCart, removeFromCart, isInCart, cartItems } = useCart();
   const { toggleFavorite, isFavorite } = useFavorites();
   const favorite = isFavorite(item.id);
-  const inCart = isInCart(item.id, item.category);
+  const [inCart, setInCart] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+
+  // Pastikan tombol batal berfungsi dengan baik
+  useEffect(() => {
+    setInCart(isInCart(item.id, item.category));
+  }, [cartItems, isInCart, item.id, item.category]);
 
   const handleFavoriteClick = (e) => {
     e.preventDefault();
@@ -21,7 +26,14 @@ const MenuItem = ({ item }) => {
 
   const handleCartAction = () => {
     if (inCart) {
-      removeFromCart(item.id, item.category);
+      // Cari cartId dari item yang sesuai sebelum menghapusnya
+      const cartItem = cartItems.find(
+        (cartItem) =>
+          cartItem.id === item.id && cartItem.category === item.category
+      );
+      if (cartItem) {
+        removeFromCart(cartItem.cartId);
+      }
     } else {
       addToCart(item);
     }
@@ -62,7 +74,7 @@ const MenuItem = ({ item }) => {
         </div>
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
-          <div className=" text-primary font-bold">
+          <div className="text-primary font-bold">
             Rp {item.price.toLocaleString()}
           </div>
         </div>
@@ -86,17 +98,15 @@ const MenuItem = ({ item }) => {
         <div className="flex gap-2 pt-2">
           <button
             onClick={handleCartAction}
-            className={`flex py-2 bg-gary items-center justify-center gap-2 rounded-lg  transition flex-1
-              ${
-                inCart
-                  ? "bg-primary text-red-600 hover:bg-red-200 border-red-200"
-                  : "hover:bg-gray-50 text-gray-700 border-gray-200"
-              }`}
+            className={`flex py-2 items-center justify-center gap-2 rounded-lg transition flex-1
+    ${
+      inCart
+        ? "bg-red-500 text-white hover:bg-red-700"
+        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+    }`}
           >
             {inCart ? (
-              <>
-                <p className="text-profile font-extrabold">Batal</p>
-              </>
+              "Batal"
             ) : (
               <>
                 <ShoppingCart className="w-4 h-4" />
@@ -104,6 +114,7 @@ const MenuItem = ({ item }) => {
               </>
             )}
           </button>
+
           <button
             onClick={handleBuyNow}
             disabled={inCart}
