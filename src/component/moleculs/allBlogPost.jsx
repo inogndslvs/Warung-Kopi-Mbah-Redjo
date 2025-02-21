@@ -49,7 +49,7 @@ const AllBlogPosts = () => {
       <h1 className="pl-8 font-bright text-primary text-3xl">All Blog Posts</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-[2px] md:p-8">
         {blogs.map((blog) => (
-          <div key={blog.id} className="p-4 border rounded-lg shadow-lg">
+          <div key={blog.id} className="p-4  rounded-lg shadow-lg">
             <img
               src={blog.image}
               alt={blog.title}

@@ -22,16 +22,40 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center">
           <ul className="flex space-x-6 font-display font-medium text-sm text-textnav ">
-            <li className={location.pathname === "/" ? "text-third" : "hover:text-primary transition duration-300"}>
+            <li
+              className={
+                location.pathname === "/"
+                  ? "text-third"
+                  : "hover:text-primary transition duration-300"
+              }
+            >
               <Link to="/">Home</Link>
             </li>
-            <li className={location.pathname === "/menu" ? "text-third" : "hover:text-primary transition duration-300"}>
+            <li
+              className={
+                location.pathname === "/menu"
+                  ? "text-third"
+                  : "hover:text-primary transition duration-300"
+              }
+            >
               <Link to="/menu">Menu</Link>
             </li>
-            <li className={location.pathname === "/blog" ? "text-third" : "hover:text-primary transition duration-300"}>
+            <li
+              className={
+                location.pathname === "/blog"
+                  ? "text-third"
+                  : "hover:text-primary transition duration-300"
+              }
+            >
               <Link to="/blog">Blog</Link>
             </li>
-            <li className={location.pathname === "/about-us" ? "text-third" : "hover:text-primary transition duration-300"}>
+            <li
+              className={
+                location.pathname === "/about-us"
+                  ? "text-third"
+                  : "hover:text-primary transition duration-300"
+              }
+            >
               <Link to="/about-us">About Us</Link>
             </li>
           </ul>
@@ -47,22 +71,54 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center mr-4">
-          <button onClick={toggleMenu} type="button" className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white" aria-controls="mobile-menu" aria-expanded={isOpen}>
+          <button
+            onClick={toggleMenu}
+            type="button"
+            className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+            aria-controls="mobile-menu"
+            aria-expanded={isOpen}
+          >
             <span className="sr-only">Open main menu</span>
             {/* Hamburger Icon */}
-            <svg className={`${isOpen ? "hidden" : "block"} h-6 w-6 text-black`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              className={`${isOpen ? "hidden" : "block"} h-6 w-6 text-hitam`}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
             {/* Close Icon */}
-            <svg className={`${isOpen ? "block" : "hidden"} h-6 w-6 text-black`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className={`${isOpen ? "block" : "hidden"} h-6 w-6 text-htiam`}
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <div className={`${isOpen ? "block" : "hidden"} md:hidden bg-secondary text-black absolute top-full left-0 right-0 p-4 shadow-md rounded-lg`}>
+      <div
+        className={`${
+          isOpen ? "block" : "hidden"
+        } md:hidden bg-secondary text-hitam absolute top-full left-0 right-0 p-4 shadow-md rounded-lg`}
+      >
         <ul className="flex flex-col space-y-4 font-mono font-medium">
           <li>
             <Link to="/" onClick={() => setIsOpen(false)}>

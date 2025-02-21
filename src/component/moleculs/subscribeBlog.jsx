@@ -10,8 +10,8 @@ const Subscribe = () => {
   };
 
   return (
-    <div className="p-6 rounded-lg text-center mt-8">
-      <p className="text-lg font-bright text-gray-500">
+    <div className="p-6 rounded-lg text-center mt-2">
+      <p className="text-lg font-bright text-gray-600">
         Subscribe untuk mendapatkan informasi terbaru.
       </p>
 
@@ -24,12 +24,12 @@ const Subscribe = () => {
           placeholder="Masukkan email Anda"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="p-3 border border-gray-300 rounded-lg w-full text-base focus:outline-none"
+          className="p-3 border border-hitam rounded-lg w-full text-base focus:outline-none"
           required
         />
         <button
           type="submit"
-          className="bg-red-600 text-white px-5 py-3 rounded-lg hover:bg-red-700 w-full sm:w-auto text-lg font-semibold"
+          className="bg-primary text-kuning px-5 py-3 rounded-lg hover:bg-red-700 w-full sm:w-auto text-lg font-bright"
         >
           Subscribe
         </button>
@@ -37,7 +37,7 @@ const Subscribe = () => {
 
       <p className="text-sm text-gray-600 mt-3">
         We care about your data in our{" "}
-        <a href="/privacy-policy" className="text-blue-600 hover:underline">
+        <a href="/privacy-policy" className="text-blue-400 hover:underline">
           privacy policy
         </a>
         .

@@ -35,7 +35,7 @@ const RecentBlog = () => {
       {/* Grid untuk Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         {/* Blog utama */}
-        <div className="p-4 border rounded-lg shadow-lg">
+        <div className="p-4  rounded-lg shadow-lg">
           <img
             src={blogs[0].image}
             alt={blogs[0].title}
@@ -60,7 +60,7 @@ const RecentBlog = () => {
           {blogs.slice(1).map((blog) => (
             <div
               key={blog.id}
-              className="p-4 border rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-4"
+              className="p-4 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-4"
             >
               {/* Gambar di sebelah kiri */}
               <img

@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ClientLayout from "../src/component/layout/layout";
+import AdminLayout from "./component/layout/adminLayout";
 import Home from "./pages/client/Home";
 import Menu from "./pages/client/Menu";
 import Blog from "./pages/client/Blog";
@@ -25,10 +27,10 @@ import BlogDetail from "./pages/client/detailBlog";
 function App() {
   return (
     <Router>
-      <Layout>
-        <FavoritesProvider>
-          <CartProvider>
-            <Routes>
+      <FavoritesProvider>
+        <CartProvider>
+          <Routes>
+            <Route element={<ClientLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
               <Route path="/makanan" element={<PilihanMakanan />} />
@@ -37,6 +39,9 @@ function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/blog/:id" element={<BlogDetail />} />
+            </Route>
+
+            <Route element={<AdminLayout />}>
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products" element={<Products />} />
@@ -48,10 +53,10 @@ function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/orders/:kodeOrder" element={<DetailOrder />} />
               <Route path="/users" element={<Users />} />
-            </Routes>
-          </CartProvider>
-        </FavoritesProvider>
-      </Layout>
+            </Route>
+          </Routes>
+        </CartProvider>
+      </FavoritesProvider>
     </Router>
   );
 }
