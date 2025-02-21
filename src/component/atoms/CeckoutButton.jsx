@@ -9,8 +9,8 @@ const CheckoutButton = () => {
   if (cartItems.length === 0) return null;
 
   return (
-    <div className=" flex fixed bottom-0 left-0 right-0  shadow-lg p-4 z-50">
-      <div className="p-5 rounded-s-xl px-[54px]  drop-shadow-2xl bg-secondary">
+    <div className="flex fixed bottom-0 left-0 right-0 shadow-lg p-4 z-50">
+      <div className="p-5 rounded-s-xl px-[54px] drop-shadow-2xl bg-secondary">
         <ShoppingCart className="w-8 h-8" />
       </div>
       <div className="bg-primary text-profile rounded-e-xl container drop-shadow-2xl mr-auto flex justify-between items-center">

@@ -1,13 +1,27 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  // 🔹 Mengambil data dari local storage saat pertama kali aplikasi dimuat
+  const [cartItems, setCartItems] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedCart = localStorage.getItem("cart");
+      return savedCart ? JSON.parse(savedCart) : [];
+    }
+    return [];
+  });
 
-  // Menambah item ke dalam cart
+  // 🔹 Menyimpan data ke local storage setiap kali keranjang berubah
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
+
+  // ✅ Menambah item ke dalam cart
   const addToCart = (item) => {
     setCartItems((prev) => {
       const existingItem = prev.find(
@@ -26,12 +40,12 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Menghapus item berdasarkan cartId
+  // ✅ Menghapus item berdasarkan cartId
   const removeFromCart = (cartId) => {
     setCartItems((prev) => prev.filter((item) => item.cartId !== cartId));
   };
 
-  // Mengupdate jumlah item di dalam cart
+  // ✅ Mengupdate jumlah item di dalam cart
   const updateQuantity = (cartId, change) => {
     setCartItems(
       (prev) =>
@@ -45,19 +59,19 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // Mengecek apakah item ada di dalam cart
+  // ✅ Mengecek apakah item ada di dalam cart
   const isInCart = (itemId, category) => {
     return cartItems.some(
       (item) => item.id === itemId && item.category === category
     );
   };
 
-  // Menghapus semua item di dalam cart
+  // ✅ Menghapus semua item di dalam cart
   const clearCart = () => {
     setCartItems([]);
   };
 
-  // Menghitung total harga
+  // ✅ Menghitung total harga
   const getTotal = () => {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   };

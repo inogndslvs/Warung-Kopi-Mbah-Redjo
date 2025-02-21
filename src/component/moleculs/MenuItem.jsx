@@ -78,7 +78,9 @@ const MenuItem = ({ item }) => {
             Rp {item.price.toLocaleString()}
           </div>
         </div>
-
+        <div className="text-sm text-gray-700">
+          Stok: <span className="font-semibold">{item.stock}</span>
+        </div>
         <div>
           <p
             className={`text-sm text-textnav  ${
