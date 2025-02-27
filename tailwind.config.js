@@ -3,6 +3,24 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        xs: "375px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
+      maxWidth: {
+        layout: "1920px",
+        content: "1440px",
+        sidebar: "280px",
+      },
+      minWidth: {
+        sidebar: "250px",
+        mobile: "320px",
+      },
+
       colors: {
         secondary: "#FBF6E8",
         primary: "#BD0000",
