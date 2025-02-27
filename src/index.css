@@ -24,3 +24,23 @@
   font-weight: normal;
   font-style: normal;
 }
+
+
+@layer utilities {
+  .min-w-mobile {
+    min-width: 320px;
+  }
+  
+  .w-sidebar {
+    width: clamp(250px, 25vw, 280px);
+  }
+  
+  .max-w-layout {
+    max-width: 1920px;
+  }
+  
+  .max-w-content {
+    max-width: 1440px;
+  }
+}
+
