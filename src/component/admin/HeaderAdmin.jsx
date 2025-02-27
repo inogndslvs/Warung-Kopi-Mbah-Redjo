@@ -1,36 +1,85 @@
-const HeaderAdmin = () => {
-    return (
-        <div className="w-full bg-[#F7EFE5] shadow-md px-6 py-2 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-            <img src="src\assets\logo\logofill.png" alt="Logo" className="h-8 w-auto" />
-            {/* <h1 className="text-lg font-bold text-[#C38154]">Warung Kopi Mbah Redjo</h1> */}
-            </div>
-            <div className="flex-1 mx-4 max-w-2xl">
-            <div className="relative">
-                <input
-                type="search"
-                placeholder="Type to search"
-                className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:border-[#C38154] bg-[#FFFBF5] shadow-sm"
-                />
-            </div>
-            </div>
-            <div className="flex items-center gap-4">
-            <div className="relative">
-                <span className="absolute -top-1 -right-1 bg-blue text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
-                <svg className="w-6 h-6 text-[#7D6E83]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-            </div>
-            <div className="relative">
-                <span className="absolute -top-1 -right-1 bg-blue text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
-                <svg className="w-6 h-6 text-[#7D6E83]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-            </div>
-            <img src="src\assets\logo\logofill.png" alt="Profile" className="w-8 h-8 rounded-full" />
-            </div>
+import { Bell, Mail, Search, User } from "lucide-react";
+import logoFull from "../../assets/logo/logofill.png";
+import { Menu, X } from "lucide-react";
+
+const HeaderAdmin = ({ onToggleSidebar }) => {
+  return (
+    <div className="w-full bg-secondary shadow-md px-4 lg:px-8 py-3 min-w-mobile">
+      <div className="max-w-content mx-auto flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onToggleSidebar}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+          >
+            <Menu size={24} />
+          </button>
+          <img src={logoFull} alt="Logo" className="h-8 md:h-10 w-auto" />
+          <h1 className="text-base md:text-xl lg:text-2xl font-bright text-primary hidden md:block">
+            Warung Kopi Mbah Redjo
+          </h1>
         </div>
-    );
+
+        {/* Search Bar - Hidden on Mobile */}
+        <div className="hidden md:block flex-1 max-w-xl mx-4 lg:mx-8">
+          <div className="relative">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              size={20}
+            />
+            <input
+              type="search"
+              placeholder="Search anything..."
+              className="w-full pl-10 pr-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white"
+            />
+          </div>
+        </div>
+
+        {/* Right Icons */}
+        <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
+          {/* Notifications - Hidden on Mobile */}
+          <div className="hidden md:block relative">
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+              3
+            </span>
+            <Mail className="w-6 h-6 text-gray-600" />
+          </div>
+
+          <div className="relative">
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+              5
+            </span>
+            <Bell className="w-6 h-6 text-gray-600" />
+          </div>
+
+          {/* Profile Section */}
+          <div className="flex items-center gap-3 border-l pl-3 md:pl-6">
+            <div className="text-right hidden md:block">
+              <p className="text-sm font-medium text-gray-700">Admin Name</p>
+              <p className="text-xs text-gray-500">Super Admin</p>
+            </div>
+            <div className="h-8 w-8 md:h-10 md:w-10 bg-gray-100 rounded-full flex items-center justify-center">
+              <User className="w-5 h-5 md:w-6 md:h-6 text-gray-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Search Bar */}
+      <div className="mt-3 md:hidden">
+        <div className="relative">
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            size={18}
+          />
+          <input
+            type="search"
+            placeholder="Search..."
+            className="w-full pl-10 pr-4 py-1.5 text-sm rounded-lg border focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white"
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default HeaderAdmin;
