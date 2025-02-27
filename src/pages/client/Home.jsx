@@ -1,4 +1,3 @@
-import Navbar from "../../component/navbar";
 import bghero from "../../assets/logo/bg-hero.jpg";
 import ButtonLocationHero from "../../component/atoms/buttonHome";
 import bgLogo from "../../assets/bgLogo.svg";
@@ -6,7 +5,6 @@ import FeaturedMenu from "../../component/moleculs/menuUnggulan";
 import TestimonialPage from "../../component/moleculs/testimoni";
 import GalleryPage from "../../component/moleculs/galeri";
 import LokasiWarungKopi from "../../component/moleculs/lokasi";
-import Footer from "../../component/footer";
 
 const Home = () => {
   return (
