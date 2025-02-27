@@ -6,17 +6,23 @@ import { useCart } from "../contexts/CartContext";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import ModalDataKosong from "../component/modal/mdldtaKosong";
 import ModalTerimaKasih from "../component/modal/mdlThanks";
+import Modal from "../component/modal/modal";
+import apiService from "../service/config";
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { cartItems, clearCart, getTotal, updateQuantity, removeFromCart } =
     useCart();
 
+  const [message, setMessage] = useState({
+    type: "",
+    content: "",
+  });
+
   const [formData, setFormData] = useState({
     name: "",
     tableNumber: "",
   });
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isThankYouModalOpen, setThankYouModalOpen] = useState(false);
 
@@ -27,22 +33,67 @@ const Checkout = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const prepareOrderData = () => {
+    const orderItems = cartItems.map((item) => ({
+      product_id: item.id,
+      quantity: item.quantity || 1,
+    }));
+
+    return {
+      customer_name: formData.name,
+      table_number: formData.tableNumber,
+      item: orderItems, // Changed from 'items' to 'item' to match request format
+    };
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Cek apakah nama dan nomor meja sudah diisi
     if (!formData.name.trim() || !formData.tableNumber.trim()) {
+      setMessage({
+        type: "error",
+        content: "Nama dan nomor meja harus diisi!",
+      });
       setIsModalOpen(true);
       return;
     }
 
-    // Tampilkan modal terima kasih
-    setThankYouModalOpen(true);
+    try {
+      const orderData = prepareOrderData();
+      const response = await apiService.orders.create(orderData);
 
-    setTimeout(() => {
-      setThankYouModalOpen(false);
-      navigate("/menu");
-    }, 5000);
+      if (response.status === 201 || response.status === 200) {
+        setMessage({
+          type: "success",
+          content:
+            response.data.message ||
+            "Pesanan berhasil dibuat! Terima kasih telah memesan.",
+        });
+        setThankYouModalOpen(true);
+
+        setTimeout(() => {
+          clearCart();
+          setThankYouModalOpen(false);
+          navigate("/menu");
+        }, 5000);
+      }
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message ||
+        "Terjadi kesalahan saat membuat pesanan";
+
+      setMessage({
+        type: "error",
+        content: errorMessage,
+      });
+      setIsModalOpen(true);
+
+      console.error("Order creation error:", {
+        status: error.response?.status,
+        message: errorMessage,
+        details: error.response?.data,
+      });
+    }
   };
 
   if (cartItems.length === 0) {
@@ -58,7 +109,6 @@ const Checkout = () => {
       </div>
     );
   }
-
   return (
     <div className="container pt-28 mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-4xl text-primary text-center font-bright font-bold mb-6">
@@ -165,15 +215,17 @@ const Checkout = () => {
           </button>
         </div>
       </form>
-
-      {/* Tampilkan modal jika input kosong */}
-      <ModalDataKosong
+      <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        message={message.content}
+        type={message.type}
       />
-      <ModalTerimaKasih
+      <Modal
         isOpen={isThankYouModalOpen}
         onClose={() => setThankYouModalOpen(false)}
+        message={message.content}
+        type={message.type}
       />
     </div>
   );
