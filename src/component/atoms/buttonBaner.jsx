@@ -1,4 +1,3 @@
-import React from "react";
 import PlaneIcon from "../../assets/airplane-putih.svg"; // Ganti dengan path ikon pesawat lokal Anda
 
 function ButtonBaner() {
