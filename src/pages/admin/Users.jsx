@@ -1,123 +1,157 @@
-import HeaderAdmin from "../../component/admin/HeaderAdmin";
-import Sidebar from "../../component/admin/Sidebar";
+import { useState } from "react";
+import { Search, MoreVertical, UserPlus } from "lucide-react";
 
 const Users = () => {
-    const usersData = [
-        {
-          id: 1,
-          name: "John Doe",
-          username: "@johndoe",
-          avatar: "/src/assets/avatar.jpg",
-          status: "Active",
-          role: "Admin",
-          email: "john.doe@example.com"
-        }, 
-        {
-          id: 2,
-          name: "Jane Smith",
-          username: "@janesmith",
-          avatar: "/src/assets/avatar.jpg",
-          status: "Inactive",
-          role: "Pelanggan",
-          email: "jane.smith@example.com"
-        },
-        {
-          id: 3,
-          name: "Bob Wilson",
-          username: "@bobwilson",
-          avatar: "/src/assets/avatar.jpg",
-          status: "Active",
-          role: "Pelanggan",
-          email: "bob.wilson@example.com"
-        },
-        {
-          id: 4,
-          name: "Alice Brown",
-          username: "@alicebrown",
-          avatar: "/src/assets/avatar.jpg",
-          status: "Active",
-          role: "Admin",
-          email: "alice.brown@example.com"
-        }
-      ];
+  const usersData = [
+    {
+      id: 1,
+      name: "John Doe",
+      username: "@johndoe",
+      avatar: "https://ui-avatars.com/api/?name=John+Doe&background=random",
+      status: "Active",
+      role: "Admin",
+      email: "john.doe@example.com",
+      lastActive: "2 hours ago"
+    },
+    {
+      id: 2,
+      name: "Sarah Wilson",
+      username: "@sarahw",
+      avatar: "https://ui-avatars.com/api/?name=Sarah+Wilson&background=random",
+      status: "Active",
+      role: "Staff",
+      email: "sarah.wilson@example.com",
+      lastActive: "5 mins ago"
+    },
+    {
+      id: 3,
+      name: "Michael Brown",
+      username: "@michaelb",
+      avatar: "https://ui-avatars.com/api/?name=Michael+Brown&background=random",
+      status: "Inactive",
+      role: "Staff",
+      email: "michael.brown@example.com",
+      lastActive: "1 day ago"
+    },
+    {
+      id: 4,
+      name: "Emma Davis",
+      username: "@emmad",
+      avatar: "https://ui-avatars.com/api/?name=Emma+Davis&background=random",
+      status: "Active",
+      role: "Admin",
+      email: "emma.davis@example.com",
+      lastActive: "Just now"
+    }
+  ];
+
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#FFFBF5]">
-      <HeaderAdmin />
-
-      <div className="flex flex-1">
-        <Sidebar />
-
-        {/* Main Content */}
-        <div className="flex-1">
-          <div className="p-6 mt-16">
-            <div className="flex flex-row align-center py-3 px-5 bg-white">
-                <h1 className="font-medium text-xl">Team Members</h1>
-                <p className="bg-[#F9F5FF] text-[#6941C6] rounded ml-3 p-1"><span>100</span> Users</p>
+    <div className="p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-white rounded-xl shadow-sm">
+          {/* Header */}
+          <div className="p-6 border-b">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-4xl font-bright text-primary">Team Members</h1>
+                <p className="text-gray-500">Manage your team members and their account permissions here</p>
+              </div>
+              <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                <UserPlus size={20} />
+                Add Member
+              </button>
             </div>
-            
-          <table className="min-w-full table-auto bg-white">
-          <thead className="bg-header">
-            <tr className="bg-gray-50 text-left border-b border-gray">
-              <th className="px-4 py-2"><input type="checkbox" name="nama" value="nama" /></th>  
-              <th className="px-4 py-2">Nama</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Peran</th>
-              <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {usersData.map((user, index) => (
-              <tr key={user.id} className={`border-b border-gray bg-white}`}>
-                <td className="px-4 py-2"><input type="checkbox" name="nama" value="nama" /></td>
-                <td className="px-4 py-2">
-                  <div className="flex items-center gap-3">
-                    <img 
-                      src={user.avatar} 
-                      alt={user.name} 
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <div>
-                      <div className="font-medium">{user.name}</div>
-                      <div className="text-sm text-gray-500">{user.username}</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <span className={`px-2 py-1 rounded-full text-xs ${
-                    user.status === 'Active' 
-                      ? 'bg-green_100 text-green_800' 
-                      : 'bg-red_100 text-red_800'
-                  }`}>
-                    {user.status}
-                  </span>
-                </td>
-                <td className="px-4 py-2">{user.role}</td>
-                <td className="px-4 py-2">{user.email}</td>
-                <td className="px-4 py-2">
-                  <div className="flex justify-center gap-2">
-                    <button className="bg-[#DC2626] text-white px-3 py-1 rounded-md flex items-center gap-1"> 
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                    <button className="bg-[#2536EB] text-white px-3 py-1 rounded-md flex items-center gap-1">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+
+            {/* Search and Filter */}
+            <div className="flex gap-4 mt-6">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search members..."
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <select className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option>All Roles</option>
+                <option>Admin</option>
+                <option>Staff</option>
+              </select>
+              <select className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Member
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Last Active
+                  </th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {usersData.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <img className="h-10 w-10 rounded-full" src={user.avatar} alt="" />
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                          <div className="text-sm text-gray-500">{user.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        user.status === 'Active' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {user.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {user.role}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {user.lastActive}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button className="text-gray-400 hover:text-gray-600">
+                        <MoreVertical size={20} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Users;
