@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { ShoppingCart } from "lucide-react";
+import { formatRupiah } from "../../utils/currency";
 
 const CheckoutButton = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const CheckoutButton = () => {
       </div>
       <div className="bg-primary text-profile rounded-e-xl container drop-shadow-2xl mr-auto flex justify-between items-center">
         <div className="font-semibold px-5">
-          Total: Rp {getTotal().toLocaleString()}
+          Total: {formatRupiah(getTotal())}
         </div>
         <button
           onClick={() => navigate("/checkout")}
