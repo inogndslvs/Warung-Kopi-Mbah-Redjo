@@ -1,92 +1,136 @@
-import { useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import apiService from "../../service/config";
+import { formatDate } from "../../utils/dateFormater";
+import "quill/dist/quill.snow.css";
 
 const BlogDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Contoh data (nanti bisa diganti dengan API atau state management)
-  const blogs = [
-    {
-      id: "1",
-      title: "Sejarah Kopi Nusantara",
-      author: "Mbah Redjo",
-      date: "10 Oktober 2024",
-      content: "Menelusuri jejak kopi dari Sabang sampai Merauke...",
-      image: "/images/Galeri/galeri4.jpeg",
-    },
-    {
-      id: "2",
-      title: "Resep Kopi Tubruk Asli",
-      author: "Dewi Sari",
-      date: "12 Oktober 2024",
-      content: "Pelajari cara membuat kopi tubruk khas Indonesia...",
-      image: "/images/Galeri/galeri4.jpeg",
-    },
-  ];
+  useEffect(() => {
+    fetchBlogDetail();
+  }, [slug]);
 
-  // Cari blog berdasarkan ID
-  const blog = blogs.find((b) => b.id === id);
+  const fetchBlogDetail = async () => {
+    try {
+      const response = await apiService.blogs.getBySlug(slug);
+      setBlog(response.data.data);
+    } catch (error) {
+      console.error("Error fetching blog:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 md:px-8 lg:px-16 py-20 flex justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   if (!blog) {
-    return <p className="text-center text-red-500">Blog tidak ditemukan.</p>;
+    return (
+      <div className="container mx-auto px-4 md:px-8 lg:px-16 py-20 text-center">
+        <p className="text-red-500">Blog post not found.</p>
+        <button
+          onClick={() => navigate("/blog")}
+          className="mt-4 text-primary hover:underline"
+        >
+          Return to Blog List
+        </button>
+      </div>
+    );
   }
+  const handleShare = (platform) => {
+    const currentUrl = window.location.href;
+    const text = "Check out this interesting blog post!";
+
+    const shareUrls = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        currentUrl
+      )}`,
+      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        currentUrl
+      )}&text=${encodeURIComponent(text)}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(
+        text + " " + currentUrl
+      )}`,
+    };
+
+    window.open(shareUrls[platform], "_blank");
+  };
 
   return (
     <div className="container mx-auto px-4 md:px-8 lg:px-16 py-20">
-      {/* Tombol Kembali */}
       <a
         href="/blog"
         className="flex items-center font-bright text-2xl text-primary hover:underline mb-4"
       >
-        <ArrowLeft size={20} className="mr-2" /> Kembali ke Blog
+        <ArrowLeft size={20} className="mr-2" /> Back to Blog
       </a>
 
-      {/* Judul & Gambar */}
       <h1 className="text-3xl font-bold text-gray-800">{blog.title}</h1>
       <p className="text-gray-500 mt-2">
-        {blog.author} - {blog.date}
+        {"admin"} - {formatDate(blog.created_at)}
       </p>
       <img
-        src={blog.image}
+        src={blog.image || blog.thumbnail}
         alt={blog.title}
         className="w-full h-96 object-cover mt-4 rounded-lg"
       />
 
-      {/* Konten */}
-      <div className="mt-6 text-gray-700 leading-relaxed">
-        <p>{blog.content}</p>
-      </div>
+      <div
+        className="mt-6 text-gray-700 leading-relaxed ql-editor"
+        dangerouslySetInnerHTML={{ __html: blog.text }}
+      />
 
-      {/* Bagikan */}
       <div className="mt-8">
-        <p className="text-lg font-semibold">Bagikan Artikel:</p>
+        <p className="text-lg font-semibold">Share Article:</p>
         <div className="flex gap-4 mt-2">
-          <a href="#" className="text-blue-600 hover:underline">
+          <button
+            onClick={() => handleShare("facebook")}
+            className="text-blue-600 hover:underline"
+          >
             Facebook
-          </a>
-          <a href="#" className="text-sky-500 hover:underline">
+          </button>
+          <button
+            onClick={() => handleShare("twitter")}
+            className="text-sky-500 hover:underline"
+          >
             Twitter
-          </a>
-          <a href="#" className="text-green-600 hover:underline">
+          </button>
+          <button
+            onClick={() => handleShare("whatsapp")}
+            className="text-green-600 hover:underline"
+          >
             WhatsApp
-          </a>
+          </button>
         </div>
       </div>
 
-      {/* Navigasi Blog */}
       <div className="flex justify-between mt-10 border-t pt-6">
-        <a
-          href="/blog/1"
-          className="flex items-center text-gray-600 hover:underline"
-        >
-          <ArrowLeft size={20} className="mr-2" /> Previous Post
-        </a>
-        <a
-          href="/blog/2"
-          className="flex items-center text-gray-600 hover:underline"
-        >
-          Next Post <ArrowRight size={20} className="ml-2" />
-        </a>
+        {blog.prev_post && (
+          <a
+            href={`/blog/${blog.prev_post.id}`}
+            className="flex items-center text-gray-600 hover:underline"
+          >
+            <ArrowLeft size={20} className="mr-2" /> Previous Post
+          </a>
+        )}
+        {blog.next_post && (
+          <a
+            href={`/blog/${blog.next_post.id}`}
+            className="flex items-center text-gray-600 hover:underline"
+          >
+            Next Post <ArrowRight size={20} className="ml-2" />
+          </a>
+        )}
       </div>
     </div>
   );
