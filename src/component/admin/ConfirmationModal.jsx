@@ -20,7 +20,7 @@ const ConfirmationModal = ({
       navigate(redirectTo);
     }
   };
-  console.log("ConfirmationModal rendered");
+
 
   if (!show) return null;
 
