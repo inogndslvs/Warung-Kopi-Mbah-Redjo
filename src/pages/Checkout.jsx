@@ -75,7 +75,7 @@ const Checkout = () => {
           clearCart();
           setThankYouModalOpen(false);
           navigate("/menu");
-        }, 5000);
+        }, 1000);
       }
     } catch (error) {
       const errorMessage =
