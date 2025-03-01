@@ -1,32 +1,66 @@
 import { ArrowUpRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import apiService from "../../service/config";
+import { formatDate } from "../../utils/dateFormater";
 
 const RecentBlog = () => {
-  const blogs = [
-    {
-      id: 1,
-      title: "Sejarah Kopi Nusantara",
-      author: "Mbah Redjo",
-      date: "10 Oktober 2024",
-      excerpt: "Menelusuri jejak kopi dari Sabang sampai Merauke...",
-      image: "/images/Galeri/galeri4.jpeg",
-    },
-    {
-      id: 2,
-      title: "Resep Kopi Tubruk Asli",
-      author: "Dewi Sari",
-      date: "12 Oktober 2024",
-      excerpt: "Pelajari cara membuat kopi tubruk khas Indonesia...",
-      image: "/images/Galeri/galeri4.jpeg",
-    },
-    {
-      id: 3,
-      title: "Mengenal Kopi Liberika",
-      author: "Rizal Fahmi",
-      date: "15 Oktober 2024",
-      excerpt: "Salah satu jenis kopi unik dengan cita rasa khas...",
-      image: "/images/Galeri/galeri4.jpeg",
-    },
-  ];
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetchBlogs();
+   
+  }, []);
+
+  const fetchBlogs = async () => {
+    try {
+      const response = await apiService.blogs.getAll();
+      const latestBlog = response.data.data.slice(0,3)
+      setBlogs(latestBlog);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="container my-24 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  // const blogs = [
+  //   {
+  //     id: 1,
+  //     title: "Sejarah Kopi Nusantara",
+  //     author: "Mbah Redjo",
+  //     date: "10 Oktober 2024",
+  //     excerpt: "Menelusuri jejak kopi dari Sabang sampai Merauke...",
+  //     image: "/images/Galeri/galeri4.jpeg",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Resep Kopi Tubruk Asli",
+  //     author: "Dewi Sari",
+  //     date: "12 Oktober 2024",
+  //     excerpt: "Pelajari cara membuat kopi tubruk khas Indonesia...",
+  //     image: "/images/Galeri/galeri4.jpeg",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Mengenal Kopi Liberika",
+  //     author: "Rizal Fahmi",
+  //     date: "15 Oktober 2024",
+  //     excerpt: "Salah satu jenis kopi unik dengan cita rasa khas...",
+  //     image: "/images/Galeri/galeri4.jpeg",
+  //   },
+  // ];
+  const stripHtml = (html) => {
+    return html.replace(/<[^>]*>/g, "");
+  };
 
   return (
     <div className="container mt-24 px-4 px-[2px] md:px-8">
@@ -43,15 +77,19 @@ const RecentBlog = () => {
           />
           <div className="mt-4">
             <p className="text-sm text-gray-500">
-              {blogs[0].author} - {blogs[0].date}
+              {"admin"} - {formatDate(blogs[0].created_at)}
             </p>
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold">{blogs[0].title}</h2>
-              <a href={`/blog/${blogs[0].id}`} className="text-red-500">
+              <a href={`/blog/${blogs[0].slug}`} className="text-red-500">
                 <ArrowUpRight size={20} />
               </a>
             </div>
-            <p className="mt-2 text-gray-700">{blogs[0].excerpt}</p>
+            <p className="mt-2 text-gray-700">
+              {stripHtml(blogs[0].text).length > 100
+                ? `${stripHtml(blogs[0].text).substring(0, 100)}...`
+                : stripHtml(blogs[0].text)}
+            </p>
           </div>
         </div>
 
@@ -72,15 +110,19 @@ const RecentBlog = () => {
               {/* Konten di sebelah kanan */}
               <div className="flex-1">
                 <p className="text-sm text-gray-500">
-                  {blog.author} - {blog.date}
+                  {"admin"} - {formatDate(blog.created_at)}
                 </p>
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-bold">{blog.title}</h3>
-                  <a href={`/blog/${blog.id}`} className="text-red-500">
+                  <a href={`/blog/${blog.slug}`} className="text-red-500">
                     <ArrowUpRight size={20} />
                   </a>
                 </div>
-                <p className="text-gray-700 mt-2">{blog.excerpt}</p>
+                <p className="text-gray-700 mt-2">
+                  {stripHtml(blog.text).length > 100
+                    ? `${stripHtml(blog.text).substring(0, 100)}...`
+                    : stripHtml(blog.text)}
+                </p>
               </div>
             </div>
           ))}
