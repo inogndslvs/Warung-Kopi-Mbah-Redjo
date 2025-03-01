@@ -26,6 +26,7 @@ import AddProduct from "./pages/admin/AddProduct";
 import EditProduct from "./pages/admin/EditProduct";
 import AddBlog from "./pages/admin/AddBlog";
 import EditBlog from "./pages/admin/EditBlog";
+import Discount from "./pages/admin/Discount";
 
 // Context Providers
 import { FavoritesProvider } from "./contexts/FavoritesContext";
@@ -48,10 +49,10 @@ function App() {
             <Route
               path="/admin/login"
               element={
-                !isAuthenticated ? (
-                  <Login />
-                ) : (
+               isAuthenticated ? (
                   <Navigate to="/admin/dashboard" replace />
+                ) : (
+                  <Login />
                 )
               }
             />
@@ -81,6 +82,7 @@ function App() {
               <Route path="products" element={<Products />} />
               <Route path="products/add" element={<AddProduct />} />
               <Route path="products/edit/:id" element={<EditProduct />} />
+              <Route path="discounts" element={<Discount />} />
               <Route path="blogs" element={<Blogs />} />
               <Route path="blogs/add" element={<AddBlog />} />
               <Route path="blogs/edit/:slug" element={<EditBlog />} />
