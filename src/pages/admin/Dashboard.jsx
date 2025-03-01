@@ -42,7 +42,7 @@ const Dashboard = () => {
   });
   const [topProducts, setTopProducts] = useState([]);
   const [period, setPeriod] = useState(90);
-  const [periodChart, setPeriodChart] = useState('12months');
+  const [periodChart, setPeriodChart] = useState("12months");
   const [salesData, setSalesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [min, setMin] = useState(0);
@@ -101,8 +101,6 @@ const Dashboard = () => {
     }
   }, [period]);
 
-
-
   useEffect(() => {
     setLoading(true);
     fetchDashboardData().finally(() => setLoading(false));
@@ -110,8 +108,11 @@ const Dashboard = () => {
   }, [fetchDashboardData, fetchTop, period, periodChart]);
 
   const calculateYAxisTicks = () => {
-    const step = (1000000 - 10000) / 9;
-    return Array.from({ length: 10 }, (_, i) => Math.round(10000 + step * i));
+    if (max <= 10000) {
+      setMax(20000)
+    }
+    const step = (max - 10000) / 5;
+    return Array.from({ length: 7 }, (_, i) => Math.round(0 + step * i));
   };
 
   if (loading) {
@@ -184,8 +185,8 @@ const Dashboard = () => {
                 value={periodChart}
                 onChange={(e) => setPeriodChart(e.target.value)}
               >
-                <option value={'12months'}>12 Months</option>
-                <option value={'6months'}>6 Months</option>
+                <option value={"12months"}>12 Months</option>
+                <option value={"6months"}>6 Months</option>
               </select>
             </div>
             <div className="h-64 w-full">
