@@ -1,8 +1,43 @@
 import { Bell, Mail, Search, User } from "lucide-react";
 import logoFull from "../../assets/logo/logofill.png";
 import { Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import Echo from "laravel-echo";
+import Pusher from "pusher-js";
+import apiService from "../../service/config";
 
 const HeaderAdmin = ({ onToggleSidebar }) => {
+  const [unprocessedOrders, setUnprocessedOrders] = useState([]);
+  useEffect(() => {
+    const fetchUnprocessedOrders = async () => {
+      try {
+        const response = await apiService.orders.getAll("search=proses");
+        setUnprocessedOrders(response.data.data);
+        console.log(unprocessedOrders, "ini unprocessed");
+      } catch (error) {
+        console.error("Error fetching unprocessed orders:", error);
+      }
+    };
+    fetchUnprocessedOrders();
+    
+      const echo = new Echo({
+        broadcaster: "pusher",
+        key: "1b58a56378ce87c49646",
+        cluster: "ap1",
+        encrypted: true,
+      });
+
+      echo.channel("order").listen(".NewOrder", (e) => {
+        console.log("New order received:", e);
+        setUnprocessedOrders((prev) => [...prev, e.order]);
+      });
+
+      return () => {
+        echo.leave("order");
+      };
+    
+  }, []);
+
   return (
     <div className="w-full bg-secondary shadow-md px-4 lg:px-8 py-3 min-w-mobile">
       <div className="max-w-content mx-auto flex items-center justify-between">
@@ -37,17 +72,19 @@ const HeaderAdmin = ({ onToggleSidebar }) => {
         {/* Right Icons */}
         <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
           {/* Notifications - Hidden on Mobile */}
-          <div className="hidden md:block relative">
+          {/* <div className="hidden md:block relative">
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
               3
             </span>
             <Mail className="w-6 h-6 text-gray-600" />
-          </div>
+          </div> */}
 
           <div className="relative">
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-              5
-            </span>
+            {unprocessedOrders.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                {unprocessedOrders.length}
+              </span>
+            )}
             <Bell className="w-6 h-6 text-gray-600" />
           </div>
 
