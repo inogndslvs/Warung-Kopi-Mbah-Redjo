@@ -10,6 +10,7 @@ import {
 import apiService from "../../service/config";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import imageCompression from "browser-image-compression";
 
 const AddBlog = () => {
   const navigate = useNavigate();
@@ -21,21 +22,34 @@ const AddBlog = () => {
     text: "",
     image: null,
   });
+  const [imageLoading, setImageLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type === "file") {
-      const file = files[0];
-
-      setFormData((prev) => ({ ...prev, image: file }));
-      setImagePreview(URL.createObjectURL(file));
-      console.log("logg file", file);
-    } else {
-      console.log("bukan file");
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-    console.log("logg formData", name);
-  };
+    const handleChange = async (e) => {
+       const { name, value, type, files } = e.target;
+   
+       if (type === "file") {
+         const file = files[0];
+         setImageLoading(true);
+   
+         try {
+           const options = {
+             maxSizeMB: 0.5,
+             maxWidthOrHeight: 1024,
+             useWebWorker: true,
+           };
+   
+           const compressedFile = await imageCompression(file, options);
+           setFormData((prev) => ({ ...prev, image: compressedFile }));
+           setImagePreview(URL.createObjectURL(compressedFile));
+         } catch (error) {
+           console.error("Error compressing image:", error);
+         } finally {
+           setImageLoading(false);
+         }
+       } else {
+         setFormData((prev) => ({ ...prev, [name]: value }));
+       }
+     };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,7 +88,7 @@ const AddBlog = () => {
       [{ color: [] }, { background: [] }],
       [{ list: "ordered" }, { list: "bullet" }],
       [{ align: [] }],
-      ["link", "image"],
+      ["link"],
       ["clean"],
     ],
   };
@@ -94,45 +108,43 @@ const AddBlog = () => {
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-center">
                 <div className="w-full h-64 relative">
-                  {imagePreview ? (
-                    <>
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setImagePreview(null);
-                          setFormData((prev) => ({
-                            ...prev,
-                            image: null,
-                          }));
-                        }}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
-                      >
-                        <X size={16} />
-                      </button>
-                    </>
-                  ) : (
-                    <label className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
-                      <ImageIcon size={48} className="text-gray-400 mb-2" />
-                      <span className="text-sm text-gray-500">
-                        Upload Featured Image
-                      </span>
-                      <span className="text-xs text-gray-400 mt-1">
-                        Recommended size: 1200x630px
-                      </span>
-                      <input
-                        type="file"
-                        name="image"
-                        onChange={handleChange}
-                        className="hidden"
-                        accept="image/*"
-                      />
-                    </label>
-                  )}
+                {imageLoading ? (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                      </div>
+                    ) : imagePreview ? (
+                      <>
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setImagePreview(null);
+                            setFormData((prev) => ({ ...prev, image: null }));
+                          }}
+                          className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full"
+                        >
+                          <X size={16} />
+                        </button>
+                      </>
+                    ) : (
+                      <label className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <Upload size={24} className="text-gray-400" />
+                        <span className="mt-2 text-sm text-gray-500">
+                          Upload Image
+                        </span>
+                        <input
+                          type="file"
+                          name="image"
+                          onChange={handleChange}
+                          className="hidden"
+                          accept="image/*"
+                        />
+                      </label>
+                    )}
                 </div>
               </div>
             </div>
@@ -196,8 +208,8 @@ const AddBlog = () => {
                   placeholder="Brief description of your post..."
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 mb-4"
                 /> */}
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <label className="block text-2xl font-bright text-gray-700 mb-1">
+              <div className="pb-10">
+                <label className="block text-2xl font-bright text-primary mb-1">
                   Content
                 </label>
                 <ReactQuill
@@ -257,8 +269,13 @@ const AddBlog = () => {
             <button
               onClick={handleConfirmCreate}
               disabled={loading}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors ml-3"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors ml-3"
             >
+              {loading ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              ) : (
+                <Save size={20} />
+              )}
               Publish
             </button>
           </AlertDialogFooter>

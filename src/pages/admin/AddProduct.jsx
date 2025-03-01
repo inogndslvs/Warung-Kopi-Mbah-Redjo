@@ -10,6 +10,7 @@ import {
   AlertDialogFooter,
 } from "../../component/atoms/AlertDialog";
 import { handleApiError } from "../../utils/errorHandler";
+import imageCompression from "browser-image-compression";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -25,15 +26,32 @@ const AddProduct = () => {
     image: null,
   });
   const [confirmModal, setConfirmModal] = useState(false);
-    const [showErrorModal, setShowErrorModal] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [imageLoading, setImageLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, type, files } = e.target;
+
     if (type === "file") {
       const file = files[0];
-      setFormData((prev) => ({ ...prev, image: file }));
-      setImagePreview(URL.createObjectURL(file));
+      setImageLoading(true);
+
+      try {
+        const options = {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1024,
+          useWebWorker: true,
+        };
+
+        const compressedFile = await imageCompression(file, options);
+        setFormData((prev) => ({ ...prev, image: compressedFile }));
+        setImagePreview(URL.createObjectURL(compressedFile));
+      } catch (error) {
+        console.error("Error compressing image:", error);
+      } finally {
+        setImageLoading(false);
+      }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -57,6 +75,7 @@ const AddProduct = () => {
       await apiService.products.create(formDataToSend);
       navigate("/admin/products");
     } catch (error) {
+      console.log(error)
       const errorMessage = handleApiError(error);
       setErrorMessage(
         errorMessage || "An error occurred. Please try again later."
@@ -129,7 +148,11 @@ const AddProduct = () => {
               <div className="col-span-2">
                 <div className="flex items-center justify-center">
                   <div className="w-40 h-40 relative">
-                    {imagePreview ? (
+                    {imageLoading ? (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                      </div>
+                    ) : imagePreview ? (
                       <>
                         <img
                           src={imagePreview}

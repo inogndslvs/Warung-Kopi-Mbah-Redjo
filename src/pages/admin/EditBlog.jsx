@@ -12,6 +12,7 @@ import {
   AlertDialogFooter,
 } from "../../component/atoms/AlertDialog";
 import apiService from "../../service/config";
+import imageCompression from "browser-image-compression";
 
 const EditBlog = () => {
   const { slug } = useParams();
@@ -30,6 +31,7 @@ const EditBlog = () => {
     // status: "",
     image: null,
   });
+  const [imageLoading, setImageLoading] = useState(false);
 
   const modules = {
     toolbar: [
@@ -62,18 +64,32 @@ const EditBlog = () => {
       });
       setImagePreview(blog.image);
     } catch (error) {
-      
       console.error("Error fetching blog");
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, type, files } = e.target;
+
     if (type === "file") {
       const file = files[0];
-      setFormData((prev) => ({ ...prev, image: file }));
-      setImagePreview(URL.createObjectURL(file));
-      console.log("logg file", file);
+      setImageLoading(true);
+
+      try {
+        const options = {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1024,
+          useWebWorker: true,
+        };
+
+        const compressedFile = await imageCompression(file, options);
+        setFormData((prev) => ({ ...prev, image: compressedFile }));
+        setImagePreview(URL.createObjectURL(compressedFile));
+      } catch (error) {
+        console.error("Error compressing image:", error);
+      } finally {
+        setImageLoading(false);
+      }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -87,22 +103,18 @@ const EditBlog = () => {
   const handleConfirmUpdate = async () => {
     setLoading(true);
     try {
-      console.log("Form Data to be sent:", formData);
-      console.log("FormData object contents:");
       const formDataToSend = new FormData();
       formDataToSend.append("_method", "PUT");
 
       Object.keys(formData).forEach((key) => {
         if (formData[key] !== null) {
           formDataToSend.append(key, formData[key]);
-          console.log(`${key}:`, formData[key]);
         }
       });
 
       await apiService.blogs.update(id, formDataToSend);
       navigate("/admin/blogs");
     } catch (error) {
-
       console.error("Error updating blog:", error);
     } finally {
       setLoading(false);
@@ -125,7 +137,11 @@ const EditBlog = () => {
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-center">
                 <div className="w-full h-64 relative">
-                  {imagePreview ? (
+                  {imageLoading ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    </div>
+                  ) : imagePreview ? (
                     <>
                       <img
                         src={imagePreview}
@@ -138,26 +154,23 @@ const EditBlog = () => {
                           setImagePreview(null);
                           setFormData((prev) => ({ ...prev, image: null }));
                         }}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                        className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full"
                       >
                         <X size={16} />
                       </button>
                     </>
                   ) : (
                     <label className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
-                      <ImageIcon size={48} className="text-gray-400 mb-2" />
-                      <span className="text-sm text-gray-500">
-                        Upload Featured Image
-                      </span>
-                      <span className="text-xs text-gray-400 mt-1">
-                        Recommended size: 1200x630px
+                      <Upload size={24} className="text-gray-400" />
+                      <span className="mt-2 text-sm text-gray-500">
+                        Upload Image
                       </span>
                       <input
                         type="file"
                         name="image"
                         onChange={handleChange}
                         className="hidden"
-                        accept="image/png, image/jpeg, image/jpg"
+                        accept="image/*"
                       />
                     </label>
                   )}
@@ -211,7 +224,7 @@ const EditBlog = () => {
             </div>
 
             {/* Content */}
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-10">
+            <div className="bg-white rounded-xl shadow-sm p-6">
               {/* <label className="block text-sm font-medium text-gray-700 mb-1">Excerpt</label>
                 <textarea
                   name="excerpt"
@@ -222,17 +235,19 @@ const EditBlog = () => {
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 mb-4"
                 /> */}
 
-              <label className="block text-4xl font-bright text-red-700 mb-1">
-                Content
-              </label>
-              <ReactQuill
-                value={formData.text}
-                onChange={(value) =>
-                  setFormData((prev) => ({ ...prev, text: value }))
-                }
-                modules={modules}
-                className="h-50"
-              />
+              <div className="pb-10">
+                <label className="block text-2xl font-bright text-primary mb-1">
+                  Content
+                </label>
+                <ReactQuill
+                  value={formData.text}
+                  onChange={(value) =>
+                    setFormData((prev) => ({ ...prev, text: value }))
+                  }
+                  modules={modules}
+                  className="h-96"
+                />
+              </div>
             </div>
 
             {/* Actions */}
@@ -281,8 +296,13 @@ const EditBlog = () => {
             <button
               onClick={handleConfirmUpdate}
               disabled={loading}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors ml-3"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors ml-3"
             >
+              {loading ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              ) : (
+                <Save size={20} />
+              )}
               Update
             </button>
           </AlertDialogFooter>
