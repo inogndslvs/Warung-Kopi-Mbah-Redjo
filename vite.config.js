@@ -4,7 +4,10 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
 export default defineConfig({
-  base: '/',
+  base: 'https://warungkopimbahredjo.com/',
+  // base: '/',
+
+  
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -50,7 +53,10 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1000,
     target: 'es2015'
-  }
+  },
+  // esbuild: {
+  //   drop: ['console', 'debugger'],
+  // },
 })
 
 // import { defineConfig } from 'vite'
