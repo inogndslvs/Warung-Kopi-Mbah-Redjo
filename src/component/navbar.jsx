@@ -3,10 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo/logonavbar.png";
 import keranjang from "../assets/logo/iconKeranjang.svg";
 import profile from "../assets/logo/iconProfile.svg";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "../contexts/CartContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { cartItems } = useCart();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -16,7 +19,8 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/menu", label: "Menu" },
     { path: "/blog", label: "Blog" },
-    { path: "/about", label: "About Us" }
+    { path: "/about", label: "About Us" },
+    { path: "/admin/login", label: "Login" },
   ];
 
   return (
@@ -29,29 +33,47 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center">
           <ul className="flex space-x-6 font-display font-medium text-sm text-textnav">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <Link
-                  to={link.path}
-                  className={`${
-                    location.pathname === link.path
-                      ? "text-third"
-                      : "hover:text-primary transition duration-300"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              // Cek apakah link merupakan login link
+              const isLoginLink =
+                link.path === "admin/login" || link.label === "Login";
+
+              // Skip render jika ini adalah login link dan kita di desktop
+              if (isLoginLink) {
+                return null; // Tidak menampilkan sama sekali
+              }
+
+              return (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className={`${
+                      location.pathname === link.path
+                        ? "text-third"
+                        : "hover:text-primary transition duration-300"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
         {/* Desktop Icons */}
         <div className="hidden md:flex justify-between gap-3 items-center space-x-3 mr-[90px]">
           <Link to="/checkout">
-            <img src={keranjang} alt="Keranjang" className="w-6 h-6" />
+            <div className="relative">
+              <ShoppingCart className="w-6 h-6 text-gray-600" />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  {cartItems.length}
+                </span>
+              )}
+            </div>
           </Link>
-          <Link to="/admin/login">
+          <Link to="/admin/dashboard">
             <div className="bg-profile p-2 rounded-full">
               <img src={profile} alt="Profile" className="w-6 h-6" />
             </div>
