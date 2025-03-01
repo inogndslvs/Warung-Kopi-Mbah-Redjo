@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = "https://api.warungkopimbahredjo.com/api";
+// const API_BASE_URL = "http://127.0.0.1:8000/api";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -24,17 +25,20 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor
-// apiClient.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     // if (error.response?.status === 401) {
-//     //   localStorage.removeItem('token');
-//     //   window.location.href = '/admin/login';
-//     // }
-//     // return Promise.reject(error);
-//   }
-// );
+apiClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // consolee.error("API Error:", error.response);
+    if (error.response.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/admin/login";
+     
+    }
+    return Promise.reject(error);
+  }
+);
 
 // API endpoints
 export const endpoints = {
@@ -45,7 +49,7 @@ export const endpoints = {
   },
 
   products: {
-    getAll: "/products",
+    getAll: (params) => `/products${params ? `?${params}` : ""}`,
     getByCategory: (category) => `/products?category=${category}`,
     getById: (id) => `/products/${id}`,
     create: "/products",
@@ -55,7 +59,8 @@ export const endpoints = {
 
   orders: {
     create: "/orders",
-    getAll: "/orders",
+    getbyPage: (page) => `/orders?page=${page}`,
+    getAll: (params) => `/orders${params ? `?${params}` : ""}`,
     getById: (id) => `/orders/${id}`,
     updateStatus: (id) => `/orders/${id}`,
     delete: (id) => `/orders/${id}`,
@@ -63,7 +68,7 @@ export const endpoints = {
   },
 
   blogs: {
-    getAll: "/blogs",
+    getAll: (params) => `/blogs${params ? `?${params}` : ""}`,
     getBySlug: (slug) => `/blogs/${slug}`,
     create: "/blogs",
     update: (id) => `/blogs/${id}`,
@@ -78,6 +83,8 @@ export const endpoints = {
     getTopProducts: (period) => `/statistics/top-products?period=${period}`,
     getSalesData: (period) => `/statistics/sales?period=${period}`,
     getDashboardStats: () => "/statistics",
+    downloadPdf: (startDate, endDate) =>
+      `/statistics/download-pdf?start_date=${startDate}&end_date=${endDate}`,
   },
 };
 
@@ -89,7 +96,7 @@ export const apiService = {
   },
 
   products: {
-    getAll: () => apiClient.get(endpoints.products.getAll),
+    getAll: (params) => apiClient.get(endpoints.products.getAll(params)),
     getByCategory: (category) =>
       apiClient.get(endpoints.products.getByCategory(category)),
     getById: (id) => apiClient.get(endpoints.products.getById(id)),
@@ -106,7 +113,7 @@ export const apiService = {
 
   orders: {
     create: (data) => apiClient.post(endpoints.orders.create, data),
-    getAll: () => apiClient.get(endpoints.orders.getAll),
+    getAll: (params) => apiClient.get(endpoints.orders.getAll(params)),
     getById: (id) => apiClient.get(endpoints.orders.getById(id)),
     updateStatus: (id, status) =>
       apiClient.put(endpoints.orders.updateStatus(id), status),
@@ -115,7 +122,7 @@ export const apiService = {
   },
 
   blogs: {
-    getAll: () => apiClient.get(endpoints.blogs.getAll),
+    getAll: (params) => apiClient.get(endpoints.blogs.getAll(params)),
     getBySlug: (slug) => apiClient.get(endpoints.blogs.getBySlug(slug)),
     create: (formData) =>
       apiClient.post(endpoints.blogs.create, formData, {
@@ -136,9 +143,39 @@ export const apiService = {
     getCustomerCount: () =>
       apiClient.get(endpoints.statistics.getCountCustomers()),
     getTotalOrders: () => apiClient.get(endpoints.statistics.getTotalOrders()),
-    getTopProducts: (period) => apiClient.get(endpoints.statistics.getTopProducts(period)),
-    getSalesData: (period) => apiClient.get(endpoints.statistics.getSalesData(period)),
-    getDashboardStats: ()=> apiClient.get(endpoints.statistics.getDashboardStats()),
+    getTopProducts: (period) =>
+      apiClient.get(endpoints.statistics.getTopProducts(period)),
+    getSalesData: (period) =>
+      apiClient.get(endpoints.statistics.getSalesData(period)),
+    getDashboardStats: () =>
+      apiClient.get(endpoints.statistics.getDashboardStats()),
+    downloadPdf: (startDate, endDate) => {
+      const token = localStorage.getItem("token");
+      const params = new URLSearchParams();
+
+      if (startDate) params.append("start_date", startDate);
+      if (endDate) params.append("end_date", endDate);
+
+      const url = `${API_BASE_URL}/statistics/download-pdf${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "report.pdf";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        });
+    },
   },
 };
 
