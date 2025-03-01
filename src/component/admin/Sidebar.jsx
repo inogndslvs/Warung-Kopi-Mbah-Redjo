@@ -123,9 +123,9 @@ const Sidebar = ({ onCloseSidebar }) => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-secondary">
+    <div className="flex flex-col h-auto md:h-full bg-secondary">
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 py-4">
         <div className="space-y-1">
           {menuItems.map((item) => (
             <button
@@ -146,8 +146,7 @@ const Sidebar = ({ onCloseSidebar }) => {
           ))}
         </div>
       </nav>
-
-      <div className="p-4 border-t border-gray-200 mt-auto">
+      <div className="p-4 border-t border-gray-200">
         <button
           onClick={handleLogout}
           className="flex items-center w-full gap-3 px-4 py-3 text-red-600 rounded-lg hover:bg-red-50 transition-colors duration-200"
