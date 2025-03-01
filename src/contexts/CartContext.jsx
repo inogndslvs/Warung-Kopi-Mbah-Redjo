@@ -1,14 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
-  // Menambah item ke dalam cart
-  const addToCart = (item) => {
+  // Memoize functions with useCallback
+  const addToCart = useCallback((item) => {
     setCartItems((prev) => {
       const existingItem = prev.find(
         (i) => i.id === item.id && i.category === item.category
@@ -21,63 +21,53 @@ export const CartProvider = ({ children }) => {
             : i
         );
       }
-
       return [...prev, { ...item, quantity: 1, cartId: Date.now() }];
     });
-  };
+  }, []);
 
-  // Menghapus item berdasarkan cartId
-  const removeFromCart = (cartId) => {
+  const removeFromCart = useCallback((cartId) => {
     setCartItems((prev) => prev.filter((item) => item.cartId !== cartId));
-  };
+  }, []);
 
-  // Mengupdate jumlah item di dalam cart
-  const updateQuantity = (cartId, change) => {
-    setCartItems(
-      (prev) =>
-        prev
-          .map((item) =>
-            item.cartId === cartId
-              ? { ...item, quantity: Math.max(item.quantity + change, 0) }
-              : item
-          )
-          .filter((item) => item.quantity > 0) // Jika 0, item dihapus
+  const updateQuantity = useCallback((cartId, change) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) =>
+          item.cartId === cartId
+            ? { ...item, quantity: Math.max(item.quantity + change, 0) }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
     );
-  };
+  }, []);
 
-  // Mengecek apakah item ada di dalam cart
-  const isInCart = (itemId, category) => {
+  const isInCart = useCallback((itemId, category) => {
     return cartItems.some(
       (item) => item.id === itemId && item.category === category
     );
-  };
+  }, [cartItems]);
 
-  // Menghapus semua item di dalam cart
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCartItems([]);
-  };
+  }, []);
 
-  // Menghitung total harga
-  const getTotal = () => {
+  const getTotal = useCallback(() => {
     return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }, [cartItems]);
+
+  const value = {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getTotal,
+    isInCart,
   };
 
-  return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        getTotal,
-        isInCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
+
 
 // Hook untuk menggunakan CartContext
 export const useCart = () => {

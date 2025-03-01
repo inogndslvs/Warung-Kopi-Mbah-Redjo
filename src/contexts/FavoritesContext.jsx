@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback, useMemo } from "react";
 
 const FavoritesContext = createContext({
   favorites: [],
@@ -11,7 +11,7 @@ const FavoritesContext = createContext({
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
 
-  const toggleFavorite = (item) => {
+  const toggleFavorite = useCallback((item) => {
     setFavorites((prev) => {
       const exists = prev.find((fav) => fav.id === item.id);
       if (exists) {
@@ -19,16 +19,20 @@ export const FavoritesProvider = ({ children }) => {
       }
       return [...prev, item];
     });
-  };
+  }, []);
 
-  const isFavorite = (itemId) => {
+  const isFavorite = useCallback((itemId) => {
     return favorites.some((fav) => fav.id === itemId);
-  };
+  }, [favorites]);
+
+  const value = useMemo(() => ({
+    favorites,
+    toggleFavorite,
+    isFavorite,
+  }), [favorites, toggleFavorite, isFavorite]);
 
   return (
-    <FavoritesContext.Provider
-      value={{ favorites, toggleFavorite, isFavorite }}
-    >
+    <FavoritesContext.Provider value={value}>
       {children}
     </FavoritesContext.Provider>
   );
