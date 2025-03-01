@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderAdmin from "../../component/admin/HeaderAdmin";
-import Sidebar from "../../component/admin/Sidebar";
 import {
   Search,
   Plus,
@@ -10,6 +8,7 @@ import {
   Package,
   Coffee,
   Filter,
+  RefreshCcw
 } from "lucide-react";
 import apiService from "../../service/config";
 import {
@@ -30,21 +29,30 @@ const Products = () => {
     isOpen: false,
     productId: null,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     fetchProducts();
-  }, [activeCategory, deleteModal]);
+  }, [activeCategory, deleteModal, searchTerm, currentPage]);
 
   const fetchProducts = async () => {
     try {
-      const response = await apiService.products.getByCategory(activeCategory);
+      let queryParams = new URLSearchParams();
+
+      if (searchTerm) queryParams.append("search", searchTerm);
+      if (activeCategory) queryParams.append("category", activeCategory);
+      queryParams.append("paginate", itemsPerPage);
+
+      const response = await apiService.products.getAll(queryParams.toString());
       setProducts(response.data.data);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching products:", error.message);
     } finally {
       setLoading(false);
     }
   };
+
   const handleDeleteClick = (id) => {
     setDeleteModal({ isOpen: true, productId: id });
   };
@@ -55,12 +63,14 @@ const Products = () => {
   };
 
   const handleConfirmDelete = async () => {
+    setLoading(true);
     try {
       await apiService.products.delete(deleteModal.productId);
       fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
     } finally {
+      setLoading(false);
       setDeleteModal({ isOpen: false, productId: null });
     }
   };
@@ -90,9 +100,15 @@ const Products = () => {
             </button>
             <button
               onClick={handleConfirmDelete}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors ml-3"
+              disabled={loading}
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors ml-3"
             >
-              Delete
+              {loading ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              ) : (
+                <Trash2 size={20} />
+              )}
+              Delete product
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -149,8 +165,10 @@ const Products = () => {
                 <Coffee size={18} />
                 Drinks
               </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-                <Filter size={20} />
+              <button
+             onClick={()=>handleCategorySwitch()}
+              className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                <RefreshCcw size={20} />
               </button>
             </div>
           </div>
@@ -279,6 +297,23 @@ const Products = () => {
               )}
             </div>
           )}
+          {/* <div className="mt-4 flex justify-center gap-2">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border rounded-lg disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <span className="px-4 py-2">Page {currentPage}</span>
+            <button
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              disabled={products.length < itemsPerPage} // or blogs.length for Blogs.jsx
+              className="px-4 py-2 border rounded-lg disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, Edit2, Trash2, Search, Filter } from "lucide-react";
+import { Eye, Edit2, Trash2, Search, Filter, Printer } from "lucide-react";
 import HeaderAdmin from "../../component/admin/HeaderAdmin";
 import Sidebar from "../../component/admin/Sidebar";
 import apiService from "../../service/config";
@@ -22,15 +22,26 @@ const Orders = () => {
     isOpen: false,
     orderId: null,
   });
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [startDate, endDate, searchTerm, currentPage]);
 
   const fetchOrders = async () => {
     try {
-      const response = await apiService.orders.getAll();
-      console.log(response.data.data);
+      let queryParams = new URLSearchParams();
+
+      if (startDate) queryParams.append("start_date", startDate);
+      if (endDate) queryParams.append("end_date", endDate);
+      if (searchTerm) queryParams.append("search", searchTerm);
+      queryParams.append("paginate", itemsPerPage);
+   
+
+      const response = await apiService.orders.getAll(queryParams.toString());
       setOrders(response.data.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -38,6 +49,7 @@ const Orders = () => {
       setLoading(false);
     }
   };
+
   const handleDeleteClick = (id) => {
     setDeleteModal({ isOpen: true, orderId: id });
   };
@@ -75,6 +87,10 @@ const Orders = () => {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    await apiService.statistics.downloadPdf(startDate, endDate);
+  };
+
   return (
     <div>
       <AlertDialog
@@ -110,6 +126,13 @@ const Orders = () => {
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-center mb-8">
               <h1 className="text-4xl font-bright text-primary">Orders</h1>
+              <button
+                onClick={handleDownloadPDF}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700"
+              >
+                <Printer size={20} />
+                Print
+              </button>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm p-6">
@@ -130,7 +153,7 @@ const Orders = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <select
+                  {/* <select
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                     className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -139,10 +162,28 @@ const Orders = () => {
                     <option value="proces">Processing</option>
                     <option value="done">Completed</option>
                     <option value="cancel">Cancelled</option>
-                  </select>
-                  <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                  </select> */}
+
+                  {/* <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                     <Filter size={20} />
-                  </button>
+                  </button> */}
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="date"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                    <span>to</span>
+                    <input
+                      type="date"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -268,6 +309,25 @@ const Orders = () => {
                   )}
                 </div>
               )}
+              {/* <div className="mt-4 flex justify-center gap-2">
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                <span className="px-4 py-2">Page {currentPage}</span>
+                <button
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  disabled={orders.length < itemsPerPage}
+                  className="px-4 py-2 border rounded-lg disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div> */}
             </div>
           </div>
         </div>

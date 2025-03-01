@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef} from "react";
+
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Edit2, Printer } from "lucide-react";
 import apiService from "../../service/config";
 import { formatRupiah, toRupiah } from "../../utils/currency";
+import { useReactToPrint } from "react-to-print";
+
+
 
 const DetailOrder = () => {
   const { orderId } = useParams();
@@ -10,6 +14,10 @@ const DetailOrder = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const contentRef =  useRef<HTMLDivElement>(null);
+  
+
+  const triggerPrint = useReactToPrint({contentRef});
 
   useEffect(() => {
     fetchOrderDetail();
@@ -58,113 +66,121 @@ const DetailOrder = () => {
               <ArrowLeft size={20} className="mr-2" />
               Back to Orders
             </button>
-            <div className="flex gap-3">
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            {/* <div className="flex gap-3">
+              <button
+                onClick={()=> triggerPrint()}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700"
+              >
                 <Printer size={20} />
                 Print
               </button>
+             
               <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90">
                 <Edit2 size={20} />
                 Edit Order
               </button>
-            </div>
+            </div> */}
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="grid grid-cols-2 gap-6 mb-6">
-              <div>
-                <h2 className="text-lg font-semibold mb-4">Order Details</h2>
-                <div className="space-y-2">
-                  <p className="text-sm">
-                    <span className="text-gray-500">Order Number:</span>
-                    <span className="ml-2 font-medium">#{order?.code}</span>
-                  </p>
-                  <p className="text-sm">
-                    <span className="text-gray-500">Date:</span>
-                    <span className="ml-2">
-                      {new Date(order?.order_date).toLocaleString()}
-                    </span>
-                  </p>
-                  <p className="text-sm">
-                    <span className="text-gray-500">Status:</span>
-                    <span
-                      className={`ml-2 px-2 py-1 rounded-full text-sm ${getStatusColor(
-                        order?.status
-                      )}`}
-                    >
-                      {order?.status}
-                    </span>
-                  </p>
+          <div>
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">Order Details</h2>
+                  <div className="space-y-2">
+                    <p className="text-sm">
+                      <span className="text-gray-500">Order Number:</span>
+                      <span className="ml-2 font-medium">#{order?.code}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-500">Date:</span>
+                      <span className="ml-2">
+                        {new Date(order?.order_date).toLocaleString()}
+                      </span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-500">Status:</span>
+                      <span
+                        className={`ml-2 px-2 py-1 rounded-full text-sm ${getStatusColor(
+                          order?.status
+                        )}`}
+                      >
+                        {order?.status}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">
+                    Customer Information
+                  </h2>
+                  <div className="space-y-2">
+                    <p className="text-sm">
+                      <span className="text-gray-500">Name:</span>
+                      <span className="ml-2">{order?.customer_name}</span>
+                    </p>
+                    <p className="text-sm">
+                      <span className="text-gray-500">Table Number:</span>
+                      <span className="ml-2">Table {order?.table_number}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div>
-                <h2 className="text-lg font-semibold mb-4">
-                  Customer Information
-                </h2>
-                <div className="space-y-2">
-                  <p className="text-sm">
-                    <span className="text-gray-500">Name:</span>
-                    <span className="ml-2">{order?.customer_name}</span>
-                  </p>
-                  <p className="text-sm">
-                    <span className="text-gray-500">Table Number:</span>
-                    <span className="ml-2">Table {order?.table_number}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
 
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold mb-4">Order Items</h2>
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-4 px-4 text-sm font-medium text-gray-600">
-                      No
-                    </th>
-                    <th className="text-left py-4 px-4 text-sm font-medium text-gray-600">
-                      Item
-                    </th>
-                    <th className="text-right py-4 px-4 text-sm font-medium text-gray-600">
-                      Price
-                    </th>
-                    <th className="text-right py-4 px-4 text-sm font-medium text-gray-600">
-                      Quantity
-                    </th>
-                    <th className="text-right py-4 px-4 text-sm font-medium text-gray-600">
-                      Sub Total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order?.items.map((item, index) => (
-                    <tr key={item.id} className="border-b last:border-b-0">
-                      <td className="py-4 px-4">{index + 1}</td>
-                      <td className="py-4 px-4">{item.product_name}</td>
-                      <td className="py-4 px-4 text-right">
-                        {formatRupiah(item.price)}
+              <div className="mt-8">
+                <h2 className="text-lg font-semibold mb-4">Order Items</h2>
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-4 px-4 text-sm font-medium text-gray-600">
+                        No
+                      </th>
+                      <th className="text-left py-4 px-4 text-sm font-medium text-gray-600">
+                        Item
+                      </th>
+                      <th className="text-right py-4 px-4 text-sm font-medium text-gray-600">
+                        Price
+                      </th>
+                      <th className="text-right py-4 px-4 text-sm font-medium text-gray-600">
+                        Quantity
+                      </th>
+                      <th className="text-right py-4 px-4 text-sm font-medium text-gray-600">
+                        Sub Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order?.items.map((item, index) => (
+                      <tr key={item.id} className="border-b last:border-b-0">
+                        <td className="py-4 px-4">{index + 1}</td>
+                        <td className="py-4 px-4">{item.product_name}</td>
+                        <td className="py-4 px-4 text-right">
+                          {formatRupiah(item.price)}
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          {item.quantity}
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          {formatRupiah(item.subtotal)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr className="border-t">
+                      <td
+                        colSpan="4"
+                        className="py-4 px-4 text-right font-medium"
+                      >
+                        Total Amount:
                       </td>
-                      <td className="py-4 px-4 text-right">{item.quantity}</td>
-                      <td className="py-4 px-4 text-right">
-                        {formatRupiah(item.subtotal)}
+                      <td className="py-4 px-4 text-right font-bold">
+                        {formatRupiah(order?.total_amount)}
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr className="border-t">
-                    <td
-                      colSpan="4"
-                      className="py-4 px-4 text-right font-medium"
-                    >
-                      Total Amount:
-                    </td>
-                    <td className="py-4 px-4 text-right font-bold">
-                      {formatRupiah(order?.total_amount)}
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+                  </tfoot>
+                </table>
+              </div>
             </div>
           </div>
         </div>
