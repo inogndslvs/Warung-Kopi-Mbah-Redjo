@@ -9,7 +9,8 @@ const Footer = () => {
         <div className="flex items-center md:hidden text-left">
           <img src={LogoFooter} alt="Logo" className="h-20 mr-4" />
           <p className="max-w-xs text-sm text-left">
-            Temukan kenangan dalam setiap cangkir. Kunjungi Warung Kopi Mbah Redjo dan rasakan kehangatan suasana klasik yang tak terlupakan.
+            Temukan kenangan dalam setiap cangkir. Kunjungi Warung Kopi Mbah
+            Redjo dan rasakan kehangatan suasana klasik yang tak terlupakan.
           </p>
         </div>
 
@@ -21,23 +22,44 @@ const Footer = () => {
         </div>
         {/* Navigasi */}
         <nav className="mt-4 md:mt-0 flex flex-col gap-2 md:gap-14 md:flex-row space-y-2 md:space-y-0 md:space-x-6 text-left">
-          <a href="#" className="hover:text-yellow-400">Home</a>
-          <a href="#" className="hover:text-yellow-400">About</a>
-          <a href="#" className="hover:text-yellow-400">Gallery</a>
-          <a href="#" className="hover:text-yellow-400">Contact</a>
+          <a href="/home" className="hover:text-yellow-400">
+            Home
+          </a>
+          <a href="/menu" className="hover:text-yellow-400">
+            Menu
+          </a>
+          <a href="/blog" className="hover:text-yellow-400">
+            Blog
+          </a>
+          <a href="/about" className="hover:text-yellow-400">
+            About Us
+          </a>
         </nav>
         {/* Sosial Media */}
         <div className="flex space-x-4 mt-4 md:mt-0 justify-center">
-          <a href="#" className="hover:text-yellow-400"><FaXTwitter size={20} /></a>
-          <a href="#" className="hover:text-yellow-400"><FaFacebookF size={20} /></a>
-          <a href="#" className="hover:text-yellow-400"><FaInstagram size={20} /></a>
-          <a href="#" className="hover:text-yellow-400"><FaGithub size={20} /></a>
+          <a href="#" className="hover:text-yellow-400">
+            <FaXTwitter size={20} />
+          </a>
+          <a href="#" className="hover:text-yellow-400">
+            <FaFacebookF size={20} />
+          </a>
+          <a
+            href="https://www.instagram.com/warkopmbahredjo/"
+            className="hover:text-yellow-400"
+          >
+            <FaInstagram size={20} />
+          </a>
+          <a href="#" className="hover:text-yellow-400">
+            <FaGithub size={20} />
+          </a>
         </div>
       </div>
       {/* Garis pemisah */}
       <div className="mt-4 border-t border-secondary w-[85%] mx-auto max-w-[900px]"></div>
       {/* Copyright */}
-      <div className="text-center  p-4 text-sm">&copy; 2024 Warung Kopi Mbah Redjo. All rights reserved.</div>
+      <div className="text-center  p-4 text-sm">
+        &copy; 2024 Warung Kopi Mbah Redjo. All rights reserved.
+      </div>
     </footer>
   );
 };

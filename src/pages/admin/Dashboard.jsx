@@ -109,7 +109,7 @@ const Dashboard = () => {
 
   const calculateYAxisTicks = () => {
     if (max <= 10000) {
-      setMax(20000)
+      setMax(20000);
     }
     const step = (max - 10000) / 5;
     return Array.from({ length: 7 }, (_, i) => Math.round(0 + step * i));
@@ -266,119 +266,6 @@ const Dashboard = () => {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-6 mb-6">
-          {/* First row */}
-          <div className="flex bg-white rounded-lg overflow-hidden shadow">
-            <div className="w-20 bg-[#0D47A1] flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 p-4">
-              <div className="text-3xl font-bold text-gray-500">38</div>
-              <div className="text-gray-600">Bahan Baku</div>
-            </div>
-          </div>
-
-          <div className="flex bg-white rounded-lg overflow-hidden shadow">
-            <div className="w-20 bg-[#C0CA33] flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 p-4">
-              <div className="text-3xl font-bold text-gray-500">15</div>
-              <div className="text-gray-600">Bahan Baku</div>
-            </div>
-          </div>
-
-          <div className="flex bg-white rounded-lg overflow-hidden shadow">
-            <div className="w-20 bg-[#D32F2F] flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 p-4">
-              <div className="text-3xl font-bold text-gray-500">38</div>
-              <div className="text-gray-600">Bahan Baku</div>
-            </div>
-          </div>
-
-          {/* Second row */}
-          <div className="flex bg-white rounded-lg overflow-hidden shadow">
-            <div className="w-20 bg-[#00C853] flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 p-4">
-              <div className="text-3xl font-bold text-gray-500">20</div>
-              <div className="text-gray-600">Peralatan Dapur</div>
-            </div>
-          </div>
-
-          <div className="flex bg-white rounded-lg overflow-hidden shadow">
-            <div className="w-20 bg-[#9E9E9E] flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 p-4">
-              <div className="text-3xl font-bold text-gray-500">25</div>
-              <div className="text-gray-600">Barang Penunjang</div>
             </div>
           </div>
         </div>
