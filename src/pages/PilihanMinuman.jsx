@@ -4,13 +4,16 @@ import MenuItem from "../component/moleculs/MenuItem";
 import CheckoutButton from "../component/atoms/CeckoutButton";
 import { useCart } from "../contexts/CartContext";
 import apiService from "../service/config";
-
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const PilihanMinuman = () => {
   const [drinks, setDrinks] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isInCart } = useCart();
   // const { isInCart } = useCart();
+
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchDrinks = async () => {
       try {
@@ -32,6 +35,12 @@ const PilihanMinuman = () => {
 
   return (
     <div className="container pt-28 mx-auto px-4 py-8 pb-20">
+      <button
+        onClick={() => navigate("/menu")}
+        className="flex items-center font-bright text-2xl text-primary hover:underline mb-4"
+      >
+        <ArrowLeft size={20} className="mr-2" /> Back to Menu
+      </button>
       <h1 className="text-3xl font-bright text-primary mb-8">
         Pilihan Minuman
       </h1>
