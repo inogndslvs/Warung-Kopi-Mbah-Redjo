@@ -20,15 +20,21 @@ const Blogs = () => {
     isOpen: false,
     blogId: null,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [searchTerm, currentPage]);
 
   const fetchBlogs = async () => {
     try {
-      const response = await apiService.blogs.getAll();
-      console.log(response.data);
+      let queryParams = new URLSearchParams();
+
+      if (searchTerm) queryParams.append("search", searchTerm);
+      queryParams.append("paginate", itemsPerPage);
+
+      const response = await apiService.blogs.getAll(queryParams.toString());
       setBlogs(response.data.data);
     } catch (error) {
       console.error("Error fetching blogs:", error);
@@ -215,6 +221,23 @@ const Blogs = () => {
                 </table>
               </div>
             )}
+            {/* <div className="mt-4 flex justify-center gap-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-4 py-2 border rounded-lg disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span className="px-4 py-2">Page {currentPage}</span>
+              <button
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={blogs.length < itemsPerPage} // or blogs.length for Blogs.jsx
+                className="px-4 py-2 border rounded-lg disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div> */}
           </div>
         )}
       </div>
