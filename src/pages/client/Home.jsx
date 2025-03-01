@@ -51,16 +51,16 @@ const Home = () => {
                 Warung Kopi Mbah Redjo
               </h2>
               <p className="font-display font-thin leading-loose text-sm text-balance  md:text-base text-third  md:px-6 md:leading-9">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
+                Warkop Mbah Redjo mempunyai visi dan misi mengangkat potensi
+                produk lokal yakni kopi Indonesia. Warkop Mbah Redjo sendiri
+                memiliki segmen “Indonesia Dalam Genggaman”, yakni menjelajah
+                negeri dimulai dari secangkir kopi. “Indonesia Dalam Genggaman”
+                adalah Warkop Mbah Redjo menyediakan dan merotasi biji kopi yang
+                disediakan untuk diseduh dengan biji kopi dari roastery dan
+                daerah terbaik penghasil kopi di Indonesia. Selain itu, Warkop
+                Mbah Redjo sering berkolaborasi dengan UMKM dengan semangat
+                kolaktif diluar bidang kopi, seperti studio seni, vendor
+                konveksi, garment dan laundry.
               </p>
             </div>
           </div>
