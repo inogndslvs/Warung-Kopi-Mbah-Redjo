@@ -9,21 +9,21 @@ import LogoFb from "../../assets/logo/logo-fb.svg";
 
 const teamMembers = [
   {
-    name: "Mbah Redjo",
-    role: "Pemilik Warung Kopi",
+    name: "Tito",
+    role: "Founder / Creative Director",
     image: "/images/menu/Testisatu.png",
     social: {
-      instagram: "#",
+      instagram: "https://www.instagram.com/titonagasurya/",
       twitter: "#",
       facebook: "#",
     },
   },
   {
-    name: "Budi Santoso",
-    role: "Barista",
+    name: "Fendi",
+    role: "Founder / Operational Manager",
     image: "/images/menu/Testisatu.png",
     social: {
-      instagram: "#",
+      instagram: "https://www.instagram.com/kakangali/",
       twitter: "#",
       facebook: "#",
     },
@@ -39,11 +39,11 @@ const teamMembers = [
     },
   },
   {
-    name: "Dewi Lestari",
-    role: "Marketing",
+    name: "Fransisca",
+    role: "Public Relation",
     image: "/images/menu/Testisatu.png",
     social: {
-      instagram: "#",
+      instagram: "https://www.instagram.com/sistja/",
       twitter: "#",
       facebook: "#",
     },
